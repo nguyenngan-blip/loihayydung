@@ -446,7 +446,7 @@
                 <i class="fa-solid fa-xmark text-lg"></i>
             </button>
             <h3 class="text-xl font-extrabold text-primaryDark mb-2">📤 Đóng góp & Đẩy học liệu mới</h3>
-            <p class="text-xs text-neutralText mb-6">Chia sẻ tài liệu, video hoặc liên kết bài giảng của bạn tới cộng đồng giáo viên.</p>
+            <p class="text-xs text-neutralText mb-6">Tải tệp trực tiếp từ máy tính hoặc gắn liên kết bài giảng để chia sẻ với cộng đồng.</p>
             <div class="space-y-4 text-sm">
                 <div>
                     <label class="block font-bold text-gray-700 mb-1">Tên học liệu</label>
@@ -482,17 +482,17 @@
                 <div>
                     <label class="block font-bold text-gray-700 mb-1">Hình thức tài nguyên</label>
                     <select id="up-source-type" onchange="toggleSourceInput()" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
-                        <option value="link">Gắn đường dẫn liên kết (YouTube, Google Drive, Canva...)</option>
-                        <option value="file">Tải tệp tài liệu lên (PDF, Word, PPT, MP4...)</option>
+                        <option value="file">📁 Tải tệp trực tiếp từ máy tính (PDF, Word, PPT, MP4...)</option>
+                        <option value="link">🔗 Gắn đường dẫn liên kết (YouTube, Google Drive, Canva...)</option>
                     </select>
                 </div>
-                <div id="source-link-group">
+                <div id="source-file-group">
+                    <label class="block font-bold text-gray-700 mb-1">Chọn tệp từ máy tính</label>
+                    <input type="file" id="up-file-input" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-primary file:text-white hover:file:bg-primaryDark">
+                </div>
+                <div id="source-link-group" class="hidden">
                     <label class="block font-bold text-gray-700 mb-1">Đường dẫn liên kết (URL)</label>
                     <input type="text" id="up-link" placeholder="https://youtube.com/... hoặc https://drive.google.com/..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
-                </div>
-                <div id="source-file-group" class="hidden">
-                    <label class="block font-bold text-gray-700 mb-1">Tên tệp đính kèm mô phỏng</label>
-                    <input type="text" id="up-filename" placeholder="VD: bai_giang_tinh_huong_tuan_4.pdf" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
                 </div>
                 <button onclick="submitUploadItem()" class="w-full py-3.5 bg-primary text-white font-extrabold rounded-xl shadow hover:bg-primaryDark transition">Gửi học liệu kiểm duyệt</button>
             </div>
@@ -625,7 +625,8 @@
         let repositoryData = [
             { id: 1, title: "Video tình huống: Khi bạn vô tình làm hỏng đồ dùng", subject: "Đạo đức 4", type: "Video", topic: "Cảm thông và giúp đỡ người khác", desc: "Video hoạt hình ngắn minh họa tình huống xử lý khi vô tình làm hỏng thước kẻ của bạn cùng bàn.", author: "ThS. Nguyễn Thị Mai", views: 245, downloads: 88, status: "Approved" },
             { id: 2, title: "Trò chơi tương tác: Chọn lời nói lịch sự khi nhận quà", subject: "Tiếng Việt 4", type: "Trò chơi", topic: "Giao tiếp lịch sự", desc: "Trò chơi trắc nghiệm giúp học sinh lớp 4 rèn luyện cách nói lời cảm ơn chân thành.", author: "Cô Lê Văn Anh", views: 310, downloads: 140, status: "Approved" },
-            { id: 3, title: "Phiếu bài tập: Xử lý bất đồng khi thảo luận nhóm", subject: "Hoạt động trải nghiệm", type: "Phiếu bài tập", topic: "Giao tiếp và hợp tác trong học tập", desc: "Phiếu học tập cá nhân và nhóm giúp rèn kỹ năng lắng nghe và tôn trọng ý kiến khác biệt.", author: "Trần Minh Quân", views: 180, downloads: 95, status: "Approved" }
+            { id: 3, title: "Phiếu bài tập: Xử lý bất đồng khi thảo luận nhóm", subject: "Hoạt động trải nghiệm", type: "Phiếu bài tập", topic: "Giao tiếp và hợp tác trong học tập", desc: "Phiếu học tập cá nhân và nhóm giúp rèn kỹ năng lắng nghe và tôn trọng ý kiến khác biệt.", author: "Trần Minh Quân", views: 180, downloads: 95, status: "Approved" },
+            { id: 4, title: "Thẻ đóng vai: Xử lý tình huống nhóm trưởng bất đồng ý kiến", subject: "Đạo đức 4", type: "Thẻ đóng vai", topic: "Giao tiếp và hợp tác trong học tập", desc: "Bộ thẻ tình huống phục vụ hoạt động đóng vai thảo luận nhóm cho học sinh lớp 4.", author: "Cô Lê Văn Anh", views: 45, downloads: 12, status: "Pending" }
         ];
 
         let customPracticeItems = [
@@ -972,10 +973,16 @@
             const subject = document.getElementById('up-subject').value;
             const type = document.getElementById('up-type').value;
             const desc = document.getElementById('up-desc').value.trim();
+            const fileInput = document.getElementById('up-file-input');
 
             if (!title || !desc) {
                 alert('Vui lòng điền đầy đủ tên học liệu và mô tả!');
                 return;
+            }
+
+            let fileName = "tai_lieu_dinh_kem.pdf";
+            if (fileInput && fileInput.files && fileInput.files.length > 0) {
+                fileName = fileInput.files[0].name;
             }
 
             const newItem = {
@@ -984,7 +991,7 @@
                 subject: subject,
                 type: type,
                 topic: "Giao tiếp lịch sự",
-                desc: desc,
+                desc: desc + ` [Tệp đính kèm: ${fileName}]`,
                 author: currentUser.name,
                 views: 1,
                 downloads: 0,
@@ -992,10 +999,11 @@
             };
 
             repositoryData.push(newItem);
-            alert('🎉 Đã gửi học liệu thành công! Học liệu của bạn đang ở trạng thái "Chờ duyệt" và sẽ hiển thị công khai sau khi Quản trị viên kiểm duyệt.');
+            alert('🎉 Đã đẩy học liệu lên thành công từ máy tính! Học liệu đang ở trạng thái "Chờ duyệt" và sẽ hiển thị công khai ngay khi Quản trị viên phê duyệt.');
             closeUploadModal();
             document.getElementById('up-title').value = '';
             document.getElementById('up-desc').value = '';
+            if (fileInput) fileInput.value = '';
         }
 
         function openDetailModal(id) {
@@ -1023,7 +1031,7 @@
                     </div>
                     <div class="p-4 bg-primaryLight rounded-2xl border border-primary/20 flex items-center justify-between">
                         <div>
-                            <div class="font-extrabold text-primaryDark text-sm">Tài nguyên đính kèm / Liên kết</div>
+                            <div class="font-extrabold text-primaryDark text-sm">Tài nguyên đính kèm / Liên kết từ máy tính</div>
                             <p class="text-xs text-neutralText">Sẵn sàng xem trực tuyến hoặc tải về máy.</p>
                         </div>
                         <button onclick="handleDownloadItem(${item.id})" class="px-5 py-2.5 bg-primary text-white font-extrabold text-xs rounded-xl shadow hover:bg-primaryDark transition flex items-center gap-2">
@@ -1202,6 +1210,8 @@
 
         function renderAdminModeration() {
             const pendingItems = repositoryData.filter(i => i.status === 'Pending');
+            document.getElementById('pending-count-badge').innerText = pendingItems.length;
+
             const container = document.getElementById('admin-body-container');
             container.innerHTML = `
                 <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
