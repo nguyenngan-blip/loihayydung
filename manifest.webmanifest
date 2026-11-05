@@ -1,0 +1,17 @@
+{
+  "name": "Lời Hay Ý Đúng",
+  "short_name": "Lời Hay Ý Đúng",
+  "description": "Kho học liệu số và góc thực hành kỹ năng giao tiếp cho học sinh lớp 4.",
+  "lang": "vi",
+  "start_url": "./index.html#/",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#EAF6FF",
+  "theme_color": "#1599E8",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+    {"src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
