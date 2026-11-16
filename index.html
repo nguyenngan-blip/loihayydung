@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lời Hay Ý Đúng – Nền tảng học liệu số giáo dục tiểu học</title>
+    <!-- PWA Manifest Link -->
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiTG9mIEhheSBZIELFbmciLCJzaG9ydF9uYW1lIjoiTG9mIEhheSIsImNvbW1lbnQiOiJOw6FuIHThuqNuZyBo4buNYyBsaeG7g3Ugc+G7kSBnaWFvIGThuujmgdGnhubugaOG7jWMiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGNUY5RkYiLCJ0aGVtZV9jb2xvciI6IiMwMjg0QzciLCJpY29ucyI6W119">
+    <meta name="theme-color" content="#0284C7">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <script>
@@ -65,7 +68,10 @@
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-center sm:text-left">
             <div class="flex items-center gap-2 justify-center">
                 <span class="bg-amber-400 text-slate-900 text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider shadow-xs"><i class="fa-solid fa-graduation-cap mr-1"></i> ĐHQGHN</span>
-                <span class="font-bold text-xs flex items-center gap-1.5"><i class="fa-solid fa-school text-amber-300"></i> Trường Đại học Giáo dục – Khoa Giáo dục sớm và Tiểu học <i class="fa-solid fa-star text-amber-300 text-[10px]"></i></span>
+                <span class="font-bold text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-school text-amber-300"></i> Khoa Giáo dục sớm và Tiểu học – Trường Đại học Giáo dục 
+                    <span class="text-amber-300 inline-flex items-center gap-1 ml-1"><i class="fa-solid fa-star text-[10px]"></i><i class="fa-solid fa-heart text-[10px]"></i></span>
+                </span>
             </div>
             <div class="flex items-center gap-4 text-xs">
                 <span class="font-medium"><i class="fa-solid fa-heart mr-1 text-amber-300"></i> Nói lời hay – Chọn ý đúng – Kết nối yêu thương!</span>
@@ -197,14 +203,14 @@
                         </div>
                     </div>
 
-                    <!-- Trợ lý hoạt hình & Biểu tượng thương hiệu sinh động -->
+                    <!-- Trợ lý hoạt hình & Biểu tượng hoa sinh động -->
                     <div class="lg:col-span-5 flex justify-center">
                         <div class="relative bg-white text-slate-900 rounded-3xl p-6 shadow-card-hover border-4 border-amber-300 max-w-sm w-full text-center space-y-4 bounce-slow">
                             <div class="absolute -top-4 -right-2 bg-rose-500 text-white font-extrabold text-[11px] px-3.5 py-1 rounded-full shadow-md rotate-6">
                                 <i class="fa-solid fa-star text-amber-200 mr-1"></i> Trợ lý Susu 🌟
                             </div>
-                            <div class="w-28 h-28 mx-auto rounded-full bg-gradient-to-tr from-pink-400 via-amber-300 to-rose-400 text-white flex items-center justify-center text-4xl shadow-md border-4 border-white">
-                                🌸
+                            <div class="w-28 h-28 mx-auto rounded-full bg-gradient-to-tr from-pink-400 via-amber-300 to-rose-400 text-white flex items-center justify-center text-5xl shadow-md border-4 border-white">
+                                🌺
                             </div>
                             <div class="space-y-1">
                                 <h3 class="font-extrabold text-base text-brand-deep">Góc Chia Sẻ Tâm Sự</h3>
@@ -302,6 +308,7 @@
                 </div>
 
                 <div id="homeFeaturedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Học liệu khởi tạo trống theo yêu cầu -->
                     <div class="col-span-full bg-white p-8 rounded-2xl border border-brand-border text-center text-xs text-brand-muted">
                         Hiện chưa có học liệu mẫu nào trong hệ thống. Thầy/cô hãy đóng góp học liệu đầu tiên nhé!
                     </div>
@@ -663,7 +670,7 @@
                         <i class="fa-solid fa-face-smile text-amber-500 mr-1"></i> 😊 Vui vẻ & Ấm áp
                     </span>
                     <div class="flex items-center gap-3">
-                        <img src="https://placehold.co/100x100/0284C7/ffffff?text=UEd" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-primary to-blue-700 text-white flex items-center justify-center font-black text-xs shadow-sm">UEd</div>
                         <div>
                             <h4 class="font-bold text-brand-text text-sm">Ban Quản Trị UEd</h4>
                             <p class="text-[11px] text-brand-muted">Chia sẻ gần đây</p>
@@ -697,7 +704,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                 <div class="bg-white p-6 rounded-card border border-brand-border space-y-4 shadow-xs">
                     <div class="flex items-center gap-3">
-                        <img src="https://images.unsplash.com/photo-1721677326830-dfa05721e257?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="w-12 h-12 rounded-full object-cover border border-brand-primary">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-primary to-blue-700 text-white flex items-center justify-center font-black text-sm shadow-sm border border-brand-primary">UEd</div>
                         <div>
                             <h4 class="font-bold text-brand-text text-sm">Khoa GD Sớm & Tiểu học UEd</h4>
                             <p class="text-[11px] text-brand-muted">Trường ĐH Giáo dục – ĐHQGHN</p>
@@ -779,9 +786,9 @@
 
                 <div class="space-y-3">
                     <h4 class="font-bold text-xs text-brand-light uppercase tracking-wider mb-3">Ứng dụng di động</h4>
-                    <p class="text-xs text-blue-100/80">Hỗ trợ cài đặt PWA trên máy tính bảng và điện thoại.</p>
-                    <button onclick="showToast('Tính năng PWA đang sẵn sàng!', 'info')" class="bg-brand-primary hover:bg-brand-sky text-white text-xs font-bold px-4 py-2.5 rounded-btn w-full transition shadow-xs cursor-pointer">
-                        <i class="fa-solid fa-mobile-screen-button mr-2"></i> Cài đặt PWA
+                    <p class="text-xs text-blue-100/80">Hỗ trợ cài đặt PWA trực tiếp trên điện thoại & máy tính bảng.</p>
+                    <button onclick="installPWAApp()" class="bg-brand-primary hover:bg-brand-sky text-white text-xs font-bold px-4 py-2.5 rounded-btn w-full transition shadow-xs cursor-pointer">
+                        <i class="fa-solid fa-mobile-screen-button mr-2"></i> Cài đặt ứng dụng về máy
                     </button>
                 </div>
             </div>
@@ -1132,6 +1139,27 @@
         let hasUploaded = true; 
         let myUploadedMaterials = [];
         let currentTopicFilter = 'all';
+        let deferredPrompt = null;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showToast('Ứng dụng đã sẵn sàng cài đặt về máy!', 'info');
+        });
+
+        function installPWAApp() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('Cảm ơn bạn đã cài đặt ứng dụng!', 'success');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                showToast('Để cài đặt: Trên Chrome/Safari, nhấn vào menu (3 chấm) và chọn "Thêm vào màn hình chính" (Add to Home screen).', 'info');
+            }
+        }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
@@ -1318,7 +1346,7 @@
                     ${mood}
                 </span>
                 <div class="flex items-center gap-3">
-                    <img src="https://placehold.co/100x100/0284C7/ffffff?text=UEd" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-brand-primary to-blue-700 text-white flex items-center justify-center font-black text-xs shadow-sm">UEd</div>
                     <div>
                         <h4 class="font-bold text-brand-text text-sm">${loggedInUser ? loggedInUser.name : (isAdminLoggedIn ? 'Quản trị viên Admin' : 'Giáo viên')}</h4>
                         <p class="text-[11px] text-brand-muted">Vừa xong</p>
@@ -1490,7 +1518,7 @@
                 if (dashBtn) dashBtn.classList.remove('hidden');
                 if (adminNav) adminNav.classList.remove('hidden');
                 if (loginHeaderBtn) loginHeaderBtn.classList.add('hidden');
-                if (adminHeaderBtn) loginHeaderBtn.classList.add('hidden');
+                if (adminHeaderBtn) adminHeaderBtn.classList.add('hidden');
                 if (authContainer) {
                     authContainer.innerHTML = `
                         <span class="bg-purple-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
