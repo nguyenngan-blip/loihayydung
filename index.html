@@ -409,7 +409,10 @@
                                 <input type="radio" name="sidebarType" value="all" checked onchange="filterMaterials()"> Tất cả định dạng
                             </label>
                             <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
-                                <input type="radio" name="sidebarType" value="video" onchange="filterMaterials()"> Video / Truyện tranh
+                                <input type="radio" name="sidebarType" value="video" onchange="filterMaterials()"> Video bài giảng
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
+                                <input type="radio" name="sidebarType" value="truyentranh" onchange="filterMaterials()"> Truyện tranh / Sách đọc
                             </label>
                             <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
                                 <input type="radio" name="sidebarType" value="game" onchange="filterMaterials()"> Trò chơi tương tác
@@ -919,7 +922,8 @@
                     <div>
                         <label class="block text-xs font-semibold text-brand-text mb-1">Loại tài nguyên <span class="text-red-500">*</span></label>
                         <select id="upType" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg font-medium">
-                            <option value="video">Video / Truyện tranh</option>
+                            <option value="video">Video bài giảng</option>
+                            <option value="truyentranh">Truyện tranh / Sách đọc</option>
                             <option value="game">Trò chơi tương tác</option>
                             <option value="sheet">Phiếu bài tập</option>
                             <option value="giaovien">Giáo án mẫu sư phạm</option>
