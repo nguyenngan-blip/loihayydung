@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lời Hay Ý Đúng – Nền tảng học liệu số giáo dục tiểu học</title>
     <!-- PWA Manifest & App Icon Links -->
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiTG9mIEhheSBZIELFbmciLCJzaG9ydF9uYW1lIjoiTG9mIEhheSIsImNvbW1lbnQiOiJOw6FuIHThuqNuZyBo4buNYyBsaeG7g3Ugc+G7kSBnaWFvIGThuujmgdGnhubugaOG7jWMiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGNUY5RkYiLCJ0aGVtZV9jb2xvciI6IiMwMjg0QzciLCJpY29ucyI6W119">
+    <link id="pwaManifestLink" rel="manifest" href="">
     <meta name="theme-color" content="#0284C7">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1137,6 +1137,33 @@
 
     <!-- JAVASCRIPT XỬ LÝ -->
     <script>
+        // Tạo Dynamic Manifest Blob để điện thoại nhận diện cài đặt PWA hoàn hảo
+        const manifestData = {
+            "name": "Lời Hay Ý Đúng",
+            "short_name": "Lời Hay Ý Đúng",
+            "description": "Nền tảng học liệu số giáo dục tiểu học",
+            "start_url": "./",
+            "display": "standalone",
+            "background_color": "#F5F9FF",
+            "theme_color": "#0284C7",
+            "icons": [
+                {
+                    "src": "https://placehold.co/192x192/0284C7/ffffff?text=UEd",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                },
+                {
+                    "src": "https://placehold.co/512x512/0284C7/ffffff?text=UEd",
+                    "sizes": "512x512",
+                    "type": "image/png"
+                }
+            ]
+        };
+        const stringManifest = JSON.stringify(manifestData);
+        const blob = new Blob([stringManifest], {type: 'application/manifest+json'});
+        const manifestURL = URL.createObjectURL(blob);
+        document.getElementById('pwaManifestLink').setAttribute('href', manifestURL);
+
         let loggedInUser = null;
         let isAdminLoggedIn = false;
         let hasUploaded = true; 
@@ -1160,8 +1187,8 @@
                     deferredPrompt = null;
                 });
             } else {
-                // Hiển thị hướng dẫn chi tiết thân thiện cho người dùng điện thoại
-                showToast('📱 Cách cài đặt: Trên iPhone (Safari) nhấn nút Chia sẻ rồi chọn "Thêm vào MH chính". Trên Android (Chrome) nhấn menu 3 chấm chọn "Cài đặt ứng dụng" hoặc "Thêm vào màn hình chính".', 'info');
+                // Hướng dẫn chi tiết cho thiết bị di động
+                showToast('📱 Để cài đặt: Trên iPhone (Safari) nhấn nút Chia sẻ ⎋ rồi chọn "Thêm vào MH chính". Trên Android (Chrome) nhấn menu 3 chấm ⋮ chọn "Cài đặt ứng dụng".', 'info');
             }
         }
 
