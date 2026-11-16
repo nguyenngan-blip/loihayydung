@@ -1,952 +1,1518 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lời Hay Ý Đúng - Khoa Giáo dục sớm và Tiểu học - ĐH Giáo dục - ĐHQGHN</title>
-    
-    <!-- PWA Manifest & Meta -->
-    <meta name="theme-color" content="#1599E8">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Lời Hay Ý Đúng">
-    <link rel="apple-touch-icon" href="https://placehold.co/192x192/1599E8/FFFFFF?text=LHYD">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Lời Hay Ý Đúng – Nền tảng học liệu số giáo dục tiểu học</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1599E8',
-                        primaryDark: '#1268B3',
-                        primaryLight: '#EAF6FF',
-                        accentYellow: '#FFC857',
-                        accentOrange: '#FF9854',
-                        accentGreen: '#43B581',
-                        accentRed: '#F56B6B',
-                        neutralText: '#667085'
+                        brand: {
+                            primary: '#0284C7', /* Ocean Blue */
+                            deep: '#0369A1',    /* Deep Blue */
+                            sky: '#38BDF8',     /* Pastel Sky */
+                            light: '#E0F2FE',   /* Light Pastel */
+                            ice: '#F0F9FF',     /* Ice Background */
+                            bg: '#F5F9FF',      /* Main Background */
+                            border: '#BAE6FD',  /* Border Pastel */
+                            text: '#0F172A',    /* Dark Slate */
+                            muted: '#475569',   /* Muted Slate */
+                        }
                     },
                     fontFamily: {
-                        sans: ['"Be Vietnam Pro"', '"Inter"', 'sans-serif']
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    borderRadius: {
+                        card: '20px',
+                        btn: '14px',
+                    },
+                    boxShadow: {
+                        soft: '0 10px 25px -3px rgba(2, 132, 199, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'card-hover': '0 20px 35px -5px rgba(2, 132, 199, 0.2), 0 8px 10px -4px rgba(0, 0, 0, 0.08)',
                     }
                 }
             }
         }
     </script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Be Vietnam Pro', sans-serif; }
-        .hero-pattern { background: radial-gradient(circle at top right, #EAF6FF 0%, #FFFFFF 60%); }
+        *, *::before, *::after { box-sizing: border-box; }
+        html { overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; background-color: #F5F9FF; color: #0F172A; overflow-x: hidden; margin: 0; padding: 0; }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #E0F2FE; }
+        ::-webkit-scrollbar-thumb { background: #0284C7; border-radius: 4px; }
+        @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+        .floating { animation: float 4s ease-in-out infinite; }
+        @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        .bounce-slow { animation: bounce-slow 3s ease-in-out infinite; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased min-h-screen flex flex-col justify-between">
+<body class="min-h-screen flex flex-col antialiased selection:bg-brand-primary selection:text-white">
 
-    <!-- ================= TOP NAVBAR ================= -->
-    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-gray-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-24">
-                <!-- Logo & Brand with Faculty Info -->
-                <div class="flex items-center gap-3.5 cursor-pointer" onclick="switchTab('home')">
-                    <div class="bg-white rounded-2xl flex items-center justify-center shadow-sm border border-gray-200 flex-shrink-0 p-1.5 overflow-hidden">
-                        <!-- UED Official Logo Badge Horizontal -->
-                        <img src="https://i.ibb.co/3m3v33v/image.png" alt="Logo UED" class="h-12 w-auto object-contain" onerror="this.onerror=null; this.src='https://placehold.co/120x50/1599E8/FFFFFF?text=VNU-UED';">
-                    </div>
-                    <div>
-                        <span class="text-xs font-extrabold text-primaryDark uppercase tracking-wider block">Khoa Giáo dục sớm và Tiểu học</span>
-                        <span class="text-base font-extrabold text-primary tracking-tight block mt-0.5">Lời Hay Ý Đúng 💖</span>
-                    </div>
-                </div>
+    <!-- TOAST CONTAINER -->
+    <div id="toast-container" class="fixed top-5 right-5 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none"></div>
 
-                <!-- Desktop Navigation Menu -->
-                <nav class="hidden lg:flex items-center space-x-1 font-bold text-sm text-gray-600">
-                    <button onclick="switchTab('home')" id="nav-home" class="px-4 py-2.5 rounded-xl text-primary bg-primaryLight transition">Trang chủ</button>
-                    <button onclick="switchTab('repository')" id="nav-repository" class="px-4 py-2.5 rounded-xl hover:bg-gray-100 hover:text-primary transition">Kho học liệu</button>
-                    <button onclick="switchTab('topics')" id="nav-topics" class="px-4 py-2.5 rounded-xl hover:bg-gray-100 hover:text-primary transition">Chủ đề giao tiếp</button>
-                    <button onclick="switchTab('practice')" id="nav-practice" class="px-4 py-2.5 rounded-xl hover:bg-gray-100 hover:text-primary transition">Góc thực hành</button>
-                    <button onclick="switchTab('community')" id="nav-community" class="px-4 py-2.5 rounded-xl hover:bg-gray-100 hover:text-primary transition">Cộng đồng</button>
-                    <button onclick="switchTab('intro')" id="nav-intro" class="px-4 py-2.5 rounded-xl hover:bg-gray-100 hover:text-primary transition">Giới thiệu</button>
-                </nav>
-
-                <!-- Actions / Auth & Install Buttons -->
-                <div class="hidden sm:flex items-center gap-3">
-                    <button onclick="triggerInstallApp()" id="install-btn-header" class="px-4 py-2.5 bg-primaryLight text-primary font-bold text-sm rounded-xl hover:bg-primary hover:text-white transition flex items-center gap-2 shadow-sm">
-                        <i class="fa-solid fa-mobile-screen"></i> 📱 Cài App
+    <!-- HEADER BRAND TRƯỜNG & KHOA -->
+    <div class="bg-gradient-to-r from-sky-700 via-brand-primary to-blue-600 text-white text-xs sm:text-sm py-2 px-4 shadow-sm">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 text-center sm:text-left">
+            <div class="flex items-center gap-2 justify-center">
+                <span class="bg-amber-400 text-slate-900 text-[10px] px-2.5 py-0.5 rounded-full font-black uppercase tracking-wider shadow-xs"><i class="fa-solid fa-graduation-cap mr-1"></i> ĐHQGHN</span>
+                <span class="font-bold text-xs flex items-center gap-1.5"><i class="fa-solid fa-school text-amber-300"></i> Trường Đại học Giáo dục – Khoa Giáo dục sớm và Tiểu học <i class="fa-solid fa-star text-amber-300 text-[10px]"></i></span>
+            </div>
+            <div class="flex items-center gap-4 text-xs">
+                <span class="font-medium"><i class="fa-solid fa-heart mr-1 text-amber-300"></i> Nói lời hay – Chọn ý đúng – Kết nối yêu thương!</span>
+                <div id="headerAuthState" class="flex items-center gap-2">
+                    <button onclick="openModal('loginModal')" class="hover:underline font-semibold bg-white/20 px-3 py-1 rounded-full transition hover:bg-white/30 cursor-pointer">
+                        <i class="fa-solid fa-user-circle mr-1"></i> Đăng nhập GV
                     </button>
-                    <div id="auth-header-area">
-                        <button onclick="openAuthModal('login')" class="px-5 py-2.5 bg-primary text-white font-extrabold text-sm rounded-xl shadow-md shadow-primary/30 hover:bg-primaryDark transition flex items-center gap-2">
-                            <i class="fa-solid fa-user"></i> Đăng nhập
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <div class="flex lg:hidden items-center gap-2">
-                    <button onclick="triggerInstallApp()" class="p-2.5 bg-primaryLight text-primary rounded-xl"><i class="fa-solid fa-mobile-screen"></i></button>
-                    <button onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200">
-                        <i class="fa-solid fa-bars text-lg"></i>
+                    <button onclick="openModal('registerModal')" class="hover:underline font-semibold bg-amber-400 text-slate-900 px-3 py-1 rounded-full transition hover:bg-amber-300 cursor-pointer">
+                        Đăng ký
                     </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Mobile Dropdown Menu -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-6 space-y-2">
-            <button onclick="switchTab('home'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-bold text-gray-700 hover:bg-primaryLight hover:text-primary">🏠 Trang chủ</button>
-            <button onclick="switchTab('repository'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-bold text-gray-700 hover:bg-primaryLight hover:text-primary">📚 Kho học liệu</button>
-            <button onclick="switchTab('topics'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-bold text-gray-700 hover:bg-primaryLight hover:text-primary">🎯 Chủ đề giao tiếp</button>
-            <button onclick="switchTab('practice'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-bold text-gray-700 hover:bg-primaryLight hover:text-primary">🎮 Góc thực hành</button>
-            <button onclick="switchTab('community'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-bold text-gray-700 hover:bg-primaryLight hover:text-primary">👥 Cộng đồng chia sẻ</button>
-            <button onclick="switchTab('intro'); toggleMobileMenu()" class="block w-full text-left px-4 py-3 rounded-xl font-bold text-gray-700 hover:bg-primaryLight hover:text-primary">📖 Giới thiệu dự án</button>
-            <div id="mobile-auth-area" class="pt-2">
-                <button onclick="openAuthModal('login'); toggleMobileMenu()" class="w-full py-3 bg-primary text-white font-extrabold rounded-xl text-center shadow">🔑 Đăng nhập / Đăng ký</button>
+    <!-- THANH ĐIỀU HƯỚNG CHÍNH (NAVBAR) -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm border-b border-brand-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo Khoa & Tên Website với chữ UEd nổi bật -->
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-primary to-blue-700 text-white flex items-center justify-center font-black text-lg shadow-sm border-2 border-brand-primary transition hover:scale-105 flex-shrink-0">
+                    UEd
+                </div>
+                <div>
+                    <button onclick="switchTab('trang-chu')" class="flex items-center gap-2 cursor-pointer text-left">
+                        <span class="text-xl sm:text-2xl font-extrabold text-brand-deep tracking-tight">Lời Hay Ý Đúng</span>
+                        <span class="text-[10px] font-bold bg-amber-400 text-slate-900 px-1.5 py-0.5 rounded shadow-xs">Sư Phạm Tiểu Học</span>
+                    </button>
+                    <p class="text-[11px] text-brand-muted font-medium hidden sm:block">Nền tảng học liệu số giáo dục tiểu học tương tác</p>
+                </div>
             </div>
+
+            <!-- Menu Điều hướng (Desktop) -->
+            <nav class="hidden lg:flex items-center gap-1 font-semibold text-sm text-brand-muted">
+                <button onclick="switchTab('trang-chu')" id="nav-trang-chu" class="nav-btn px-4 py-2 rounded-xl text-brand-primary bg-brand-light font-bold transition cursor-pointer">
+                    <i class="fa-solid fa-house mr-1.5 text-blue-600"></i> Trang chủ
+                </button>
+                <button onclick="switchTab('hoc-lieu')" id="nav-hoc-lieu" class="nav-btn px-4 py-2 rounded-xl hover:text-brand-primary hover:bg-brand-ice transition cursor-pointer">
+                    <i class="fa-solid fa-book-open mr-1.5 text-amber-600"></i> Kho học liệu
+                </button>
+                <button onclick="switchTab('chu-de')" id="nav-chu-de" class="nav-btn px-4 py-2 rounded-xl hover:text-brand-primary hover:bg-brand-ice transition cursor-pointer">
+                    <i class="fa-solid fa-shapes mr-1.5 text-purple-600"></i> Mạch chủ đề
+                </button>
+                <button onclick="switchTab('thuc-hanh')" id="nav-thuc-hanh" class="nav-btn px-4 py-2 rounded-xl hover:text-brand-primary hover:bg-brand-ice transition cursor-pointer">
+                    <i class="fa-solid fa-comments mr-1.5 text-emerald-600"></i> Góc chia sẻ tâm sự
+                </button>
+                <button onclick="switchTab('cong-dong')" id="nav-cong-dong" class="nav-btn px-4 py-2 rounded-xl hover:text-brand-primary hover:bg-brand-ice transition cursor-pointer">
+                    <i class="fa-solid fa-users mr-1.5 text-rose-600"></i> Cộng đồng
+                </button>
+                <!-- Nút Quản trị Admin trên Navbar khi đã đăng nhập Admin -->
+                <button onclick="checkAdminAccess()" id="navAdminBtn" class="hidden nav-btn px-4 py-2 rounded-xl text-purple-700 bg-purple-50 hover:bg-purple-100 transition cursor-pointer font-bold flex items-center gap-1">
+                    <i class="fa-solid fa-shield-halved"></i> Quản trị Admin <span class="bg-amber-400 text-slate-900 text-[10px] px-1.5 py-0.2 rounded-full font-black" id="adminBadgeCount">0</span>
+                </button>
+            </nav>
+
+            <!-- Nút hành động & Cổng Admin & Đăng nhập Admin -->
+            <div class="flex items-center gap-2">
+                <button onclick="openModal('uploadModal')" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-brand-primary to-blue-600 hover:from-brand-deep hover:to-blue-700 text-white px-4.5 py-2.5 rounded-btn font-bold text-xs shadow-soft transition cursor-pointer">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Đóng góp học liệu
+                </button>
+                <button onclick="openDashboardTab()" id="navDashboardBtn" class="hidden inline-flex items-center gap-1.5 bg-sky-600 hover:bg-sky-700 text-white px-3.5 py-2.5 rounded-btn font-bold text-xs shadow-soft transition cursor-pointer">
+                    <i class="fa-solid fa-box-archive"></i> Tủ học liệu của tôi
+                </button>
+                <button onclick="openModal('adminLoginModal')" id="adminHeaderBtn" class="inline-flex items-center gap-1 bg-purple-700 hover:bg-purple-800 text-white px-3.5 py-2.5 rounded-btn font-bold text-xs shadow-soft transition cursor-pointer" title="Cổng Quản trị Admin">
+                    <i class="fa-solid fa-shield-halved"></i> Cổng Admin <span class="bg-amber-400 text-slate-900 text-[10px] px-1.5 py-0.2 rounded-full font-black" id="adminHeaderBadge">0</span>
+                </button>
+                <button onclick="openModal('loginModal')" id="loginHeaderBtn" class="inline-flex items-center gap-1 bg-slate-800 hover:bg-slate-900 text-white px-3 py-2.5 rounded-btn font-bold text-xs shadow-soft transition cursor-pointer">
+                    <i class="fa-solid fa-user-circle"></i> Đăng nhập GV
+                </button>
+                <button onclick="toggleMobileMenu()" class="lg:hidden p-2 text-slate-600 hover:text-brand-primary rounded-xl hover:bg-slate-100 transition cursor-pointer">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div id="mobileMenu" class="hidden lg:hidden bg-white border-b border-brand-border px-4 pt-2 pb-4 space-y-2 shadow-lg">
+            <button onclick="switchTab('trang-chu'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg font-bold hover:bg-brand-light text-brand-primary">Trang chủ</button>
+            <button onclick="switchTab('hoc-lieu'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg font-medium hover:bg-brand-ice">Kho học liệu số</button>
+            <button onclick="switchTab('chu-de'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg font-medium hover:bg-brand-ice">Mạch chủ đề giao tiếp</button>
+            <button onclick="switchTab('thuc-hanh'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg font-medium hover:bg-brand-ice">Góc chia sẻ tâm sự</button>
+            <button onclick="switchTab('cong-dong'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg font-medium hover:bg-brand-ice">Cộng đồng chia sẻ</button>
+            <button onclick="toggleMobileMenu(); openModal('adminLoginModal');" class="w-full text-left px-3 py-2 rounded-lg font-bold text-purple-700 bg-purple-50">Cổng Quản trị Admin</button>
+            <button onclick="toggleMobileMenu(); openModal('loginModal');" class="w-full text-left px-3 py-2 rounded-lg font-bold text-slate-800 bg-slate-100">Đăng nhập Giáo viên</button>
+            <button onclick="toggleMobileMenu(); openModal('uploadModal');" class="w-full text-center bg-brand-primary text-white py-2.5 rounded-btn font-bold text-xs mt-2">Đóng góp học liệu</button>
         </div>
     </header>
 
-    <!-- ================= MAIN CONTENT CONTAINER ================= -->
-    <main class="flex-grow">
-
-        <!-- ================= 1. TRANG CHỦ ================= -->
-        <section id="tab-home" class="tab-content hero-pattern">
-            <!-- Hero Section -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 text-center">
-                <div class="inline-flex items-center gap-2 bg-accentYellow/20 text-yellow-800 font-extrabold text-xs sm:text-sm px-4 py-2 rounded-full mb-6 border border-accentYellow/30">
-                    <span>🎓 Khoa Giáo dục sớm và Tiểu học • Trường Đại học Giáo dục - ĐHQGHN</span>
+    <!-- NỘI DUNG CHÍNH (SINGLE PAGE) -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- 1. TRANG CHỦ -->
+        <div id="tab-trang-chu" class="tab-content space-y-12">
+            <!-- Banner chính sặc sỡ và sinh động tích hợp biểu tượng thương hiệu -->
+            <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-400 via-brand-primary to-blue-700 text-white p-6 sm:p-12 shadow-soft">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl">
+                    <i class="fa-solid fa-comments"></i>
                 </div>
-                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-primaryDark tracking-tight max-w-4xl mx-auto leading-tight mb-6">
-                    Nói lời hay – Chọn ý đúng – <span class="text-accentOrange">Kết nối yêu thương!</span>
-                </h1>
-                <p class="text-base sm:text-lg text-neutralText max-w-2xl mx-auto mb-10 leading-relaxed">
-                    Nền tảng học liệu số hỗ trợ giáo viên, sinh viên và học sinh lớp 4 phát triển kỹ năng giao tiếp và ứng xử văn minh.
-                </p>
-                <div class="flex flex-wrap justify-center gap-4 mb-14">
-                    <button onclick="switchTab('repository')" class="px-8 py-4 bg-primary text-white font-extrabold rounded-2xl shadow-lg shadow-primary/30 hover:bg-primaryDark transition flex items-center gap-3 text-base">
-                        <i class="fa-solid fa-book-open"></i> Khám phá kho học liệu
-                    </button>
-                    <button onclick="switchTab('practice')" class="px-8 py-4 bg-accentOrange text-white font-extrabold rounded-2xl shadow-lg shadow-orange-500/30 hover:bg-orange-600 transition flex items-center gap-3 text-base">
-                        <i class="fa-solid fa-gamepad"></i> Bắt đầu luyện tập ngay
-                    </button>
-                </div>
-            </div>
-
-            <!-- 7 Chủ đề trọng tâm -->
-            <div class="bg-white py-16 border-t border-gray-100">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-center max-w-2xl mx-auto mb-12">
-                        <span class="bg-primary/10 text-primary font-extrabold text-xs px-3 py-1 rounded-full uppercase">🎯 Danh mục cốt lõi</span>
-                        <h2 class="text-3xl font-extrabold text-primaryDark mt-2">7 Chủ đề Giao tiếp Tiểu học</h2>
-                    </div>
-                    <div id="home-topics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= 2. TRANG KHO HỌC LIỆU ================= -->
-        <section id="tab-repository" class="tab-content hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                    <div>
-                        <span class="bg-primary/10 text-primary font-extrabold text-xs px-3 py-1 rounded-full uppercase">📚 Thư viện số</span>
-                        <h1 class="text-3xl font-extrabold text-primaryDark mt-2 mb-1">Kho Học Liệu & Tài Nguyên Giáo Dục</h1>
-                        <p class="text-neutralText text-sm">Tìm kiếm, xem trước và tải xuống học liệu phục vụ giảng dạy.</p>
-                    </div>
-                    <button onclick="openUploadModal()" class="px-5 py-3 bg-primary text-white font-extrabold text-sm rounded-xl shadow hover:bg-primaryDark transition flex items-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Đóng góp học liệu mới
-                    </button>
-                </div>
-
-                <!-- Search & Filters -->
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mb-8 space-y-4">
-                    <div class="relative">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
-                        <input type="text" id="repo-search-input" oninput="filterRepository()" placeholder="Tìm kiếm theo tên học liệu, từ khóa, tác giả..." class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-2xl text-sm font-medium focus:outline-none focus:border-primary">
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Môn học</label>
-                            <select id="filter-subject" onchange="filterRepository()" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
-                                <option value="all">Tất cả môn học</option>
-                                <option value="Tiếng Việt 4">Tiếng Việt 4</option>
-                                <option value="Đạo đức 4">Đạo đức 4</option>
-                                <option value="Hoạt động trải nghiệm">Hoạt động trải nghiệm</option>
-                                <option value="Tích hợp liên môn">Tích hợp liên môn</option>
-                            </select>
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-5 text-left">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/25 backdrop-blur-md text-white text-xs font-bold border border-white/30 shadow-xs">
+                            <span class="w-5 h-5 rounded-full bg-amber-400 text-slate-900 flex items-center justify-center text-[10px] font-bold"><i class="fa-solid fa-graduation-cap"></i></span>
+                            <span>Khoa Giáo dục sớm và Tiểu học – ĐH Giáo dục – ĐHQGHN</span>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Dạng học liệu</label>
-                            <select id="filter-type" onchange="filterRepository()" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
-                                <option value="all">Tất cả dạng tài nguyên</option>
-                                <option value="Video">Video tình huống</option>
-                                <option value="Trò chơi">Trò chơi tương tác</option>
-                                <option value="Phiếu bài tập">Phiếu bài tập</option>
-                                <option value="Thẻ đóng vai">Thẻ đóng vai</option>
-                                <option value="Truyện tranh">Truyện tranh</option>
-                                <option value="Tài liệu hướng dẫn">Tài liệu hướng dẫn</option>
-                                <option value="Khác">Khác</option>
-                            </select>
+                        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+                            Lời Hay Ý Đúng <br>
+                            <span class="text-amber-300">Nói lời hay – Chọn ý đúng – Kết nối yêu thương!</span>
+                        </h1>
+                        <p class="text-xs sm:text-sm text-blue-100 font-medium leading-relaxed max-w-xl">
+                            Nền tảng học liệu số tương tác cao giúp giáo viên, sinh viên sư phạm và học sinh tiểu học rèn luyện, khai thác và thực hành kỹ năng giao tiếp sinh động, hiện đại.
+                        </p>
+
+                        <!-- Thanh tìm kiếm học liệu ngay tại trang chủ -->
+                        <div class="pt-2 max-w-lg">
+                            <div class="bg-white p-2 rounded-2xl shadow-soft flex items-center gap-2">
+                                <i class="fa-solid fa-magnifying-glass text-brand-primary ml-2"></i>
+                                <input type="text" id="homeSearchInput" onkeydown="if(event.key==='Enter'){ searchFromHome(); }" placeholder="Tìm kiếm học liệu, video bài giảng, phiếu bài tập..." class="w-full text-xs text-slate-800 focus:outline-none bg-transparent py-1">
+                                <button onclick="searchFromHome()" class="bg-brand-primary hover:bg-brand-deep text-white px-4 py-2 rounded-xl text-xs font-bold transition cursor-pointer shadow-xs">Tìm kiếm</button>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Sắp xếp theo</label>
-                            <select id="filter-sort" onchange="filterRepository()" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
-                                <option value="newest">Mới nhất</option>
-                                <option value="popular">Lượt xem / Tải cao nhất</option>
-                            </select>
+
+                        <div class="flex flex-wrap items-center gap-3 pt-2">
+                            <button onclick="switchTab('hoc-lieu')" class="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-900 text-xs font-black rounded-btn shadow-soft transition-all flex items-center gap-2 cursor-pointer">
+                                <i class="fa-solid fa-compass"></i> Khám phá kho học liệu
+                            </button>
+                            <button onclick="switchTab('chu-de')" class="px-6 py-3 bg-white/20 hover:bg-white/30 backdrop-blur text-white text-xs font-bold rounded-btn border border-white/40 transition-all flex items-center gap-2 cursor-pointer">
+                                <i class="fa-solid fa-shapes text-amber-300"></i> Xem Mạch chủ đề
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Trợ lý hoạt hình & Biểu tượng thương hiệu sinh động -->
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative bg-white text-slate-900 rounded-3xl p-6 shadow-card-hover border-4 border-amber-300 max-w-sm w-full text-center space-y-4 bounce-slow">
+                            <div class="absolute -top-4 -right-2 bg-rose-500 text-white font-extrabold text-[11px] px-3.5 py-1 rounded-full shadow-md rotate-6">
+                                <i class="fa-solid fa-star text-amber-200 mr-1"></i> Trợ lý Susu 🌟
+                            </div>
+                            <div class="w-28 h-28 mx-auto rounded-full bg-gradient-to-tr from-pink-400 via-amber-300 to-rose-400 text-white flex items-center justify-center text-4xl shadow-md border-4 border-white">
+                                🌸
+                            </div>
+                            <div class="space-y-1">
+                                <h3 class="font-extrabold text-base text-brand-deep">Góc Chia Sẻ Tâm Sự</h3>
+                                <p class="text-xs text-brand-muted">"Chào các bạn! Cùng chia sẻ những câu chuyện và bài học ứng xử ý nghĩa mỗi ngày nhé!"</p>
+                            </div>
+                            <button onclick="switchTab('thuc-hanh')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold text-xs shadow-sm transition cursor-pointer">
+                                <i class="fa-solid fa-comments mr-1.5"></i> Vào góc chia sẻ tâm sự 💬
+                            </button>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- Repository Grid -->
-                <div id="repository-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-            </div>
-        </section>
-
-        <!-- ================= 3. TRANG CHỦ ĐỀ GIAO TIẾP ================= -->
-        <section id="tab-topics" class="tab-content hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div class="text-center max-w-2xl mx-auto mb-12">
-                    <span class="bg-accentOrange/10 text-accentOrange font-extrabold text-xs px-3 py-1 rounded-full uppercase">🎯 7 Chủ Đề Giao Tiếp Trọng Tâm</span>
-                    <h1 class="text-3xl font-extrabold text-primaryDark mt-2">Khám phá nội dung theo chủ đề</h1>
-                </div>
-                <div id="topics-page-container" class="space-y-8"></div>
-            </div>
-        </section>
-
-        <!-- ================= 4. TRANG GÓC THỰC HÀNH ================= -->
-        <section id="tab-practice" class="tab-content hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <!-- 7 Mạch chủ đề nổi bật -->
+            <section class="space-y-6 text-left">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                     <div>
-                        <span class="bg-accentOrange/10 text-accentOrange font-extrabold text-xs px-3 py-1 rounded-full uppercase">🎮 Tương tác & Thực hành</span>
-                        <h1 class="text-3xl font-extrabold text-primaryDark mt-2 mb-2">Góc Thực Hành Giao Tiếp & Tình Huống</h1>
-                        <p class="text-neutralText">Nơi học sinh luyện tập xử lý tình huống mẫu và bài tập do giáo viên đẩy lên.</p>
+                        <span class="bg-purple-100 text-purple-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Hệ thống cốt lõi</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight mt-2">7 Mạch Chủ Đề Giao Tiếp Trọng Tâm 📚</h2>
                     </div>
-                    <button onclick="openCreatorModal()" class="px-5 py-3 bg-accentOrange text-white font-extrabold text-sm rounded-xl shadow hover:bg-orange-600 transition flex items-center gap-2">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> ✏️ Tạo học liệu thực hành mới
+                    <button onclick="switchTab('chu-de')" class="text-brand-primary hover:text-brand-deep font-bold text-xs inline-flex items-center gap-1 cursor-pointer">
+                        Xem chi tiết nội dung chủ đề <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
 
-                <!-- Practice Sub-Navigation -->
-                <div class="flex justify-center space-x-2 sm:space-x-4 mb-8">
-                    <button onclick="switchPracticeTab('situation')" id="p-tab-sit" class="px-6 py-3 rounded-xl font-extrabold text-sm bg-primary text-white shadow flex items-center gap-2"><i class="fa-solid fa-puzzle-piece"></i> Tình huống mẫu</button>
-                    <button onclick="switchPracticeTab('custom')" id="p-tab-custom" class="px-6 py-3 rounded-xl font-extrabold text-sm bg-white text-gray-700 hover:bg-gray-100 shadow-sm flex items-center gap-2"><i class="fa-solid fa-chalkboard-user"></i> Học liệu thực hành do GV đẩy lên</button>
-                </div>
-
-                <div id="practice-body-container" class="max-w-4xl mx-auto"></div>
-            </div>
-        </section>
-
-        <!-- ================= 5. TRANG CỘNG ĐỒNG ================= -->
-        <section id="tab-community" class="tab-content hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div class="text-center max-w-2xl mx-auto mb-10">
-                    <span class="bg-green-100 text-accentGreen font-extrabold text-xs px-3 py-1 rounded-full uppercase">👥 Không gian kết nối</span>
-                    <h1 class="text-3xl font-extrabold text-primaryDark mt-2">Cộng Đồng Chia Sẻ Học Liệu</h1>
-                    <p class="text-sm text-neutralText mt-2">Nơi giáo viên và sinh viên Khoa Giáo dục sớm và Tiểu học đóng góp tài nguyên.</p>
-                </div>
-                <div id="community-contributors-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
-            </div>
-        </section>
-
-        <!-- ================= 6. TRANG GIỚI THIỆU ================= -->
-        <section id="tab-intro" class="tab-content hidden">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div class="bg-white p-8 sm:p-12 rounded-3xl shadow-sm border border-gray-100 space-y-6">
-                    <div class="text-center">
-                        <span class="bg-primary/10 text-primary font-extrabold text-xs px-3 py-1 rounded-full uppercase">📖 Về chúng tôi</span>
-                        <h1 class="text-3xl font-extrabold text-primaryDark mt-2 mb-1">Lời Hay Ý Đúng</h1>
-                        <p class="text-xs font-bold text-gray-600">Khoa Giáo dục sớm và Tiểu học - Trường Đại học Giáo dục - ĐHQGHN</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div onclick="switchTab('hoc-lieu'); selectTopicFilter('1');" class="bg-white rounded-card p-5 border-2 border-blue-200 hover:border-blue-500 shadow-xs hover:shadow-card-hover transition cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-handshake"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-blue-600 uppercase">Chủ đề 1</span>
+                            <h3 class="font-bold text-brand-text text-sm mb-1">Làm quen và kết bạn</h3>
+                            <p class="text-xs text-brand-muted line-clamp-2">Giới thiệu bản thân, chủ động bắt chuyện, tham gia nhóm bạn.</p>
+                        </div>
+                        <div class="text-[11px] font-bold text-blue-600 pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span>Khám phá học liệu</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </div>
                     </div>
-                    <hr class="border-gray-100">
-                    <div class="space-y-4 text-gray-700 text-sm sm:text-base leading-relaxed">
-                        <h3 class="font-extrabold text-primaryDark text-lg">1. Giới thiệu chung</h3>
-                        <p>“Lời Hay Ý Đúng” là nền tảng học liệu số được xây dựng nhằm hỗ trợ giáo viên, sinh viên ngành Giáo dục tiểu học và học sinh lớp 4 trong việc tìm kiếm, thiết kế và thực hành kỹ năng giao tiếp.</p>
+
+                    <div onclick="switchTab('hoc-lieu'); selectTopicFilter('2');" class="bg-white rounded-card p-5 border-2 border-amber-200 hover:border-amber-500 shadow-xs hover:shadow-card-hover transition cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-users-rectangle"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-amber-600 uppercase">Chủ đề 2</span>
+                            <h3 class="font-bold text-brand-text text-sm mb-1">Xây dựng & duy trì tình bạn</h3>
+                            <p class="text-xs text-brand-muted line-clamp-2">Quan tâm, chia sẻ, giữ lời hứa và giải quyết mâu thuẫn.</p>
+                        </div>
+                        <div class="text-[11px] font-bold text-amber-600 pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span>Khám phá học liệu</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </div>
+                    </div>
+
+                    <div onclick="switchTab('hoc-lieu'); selectTopicFilter('3');" class="bg-white rounded-card p-5 border-2 border-emerald-200 hover:border-emerald-500 shadow-xs hover:shadow-card-hover transition cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-hands-holding-child"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-emerald-600 uppercase">Chủ đề 3</span>
+                            <h3 class="font-bold text-brand-text text-sm mb-1">Cảm thông & giúp đỡ người khác</h3>
+                            <p class="text-xs text-brand-muted line-clamp-2">Nhận biết cảm xúc, nói lời động viên và giúp đỡ bạn khó khăn.</p>
+                        </div>
+                        <div class="text-[11px] font-bold text-emerald-600 pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span>Khám phá học liệu</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </div>
+                    </div>
+
+                    <div onclick="switchTab('hoc-lieu'); selectTopicFilter('4');" class="bg-white rounded-card p-5 border-2 border-purple-200 hover:border-purple-500 shadow-xs hover:shadow-card-hover transition cursor-pointer flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center text-xl mb-3 group-hover:scale-110 transition">
+                                <i class="fa-solid fa-book-bookmark"></i>
+                            </div>
+                            <span class="text-[10px] font-bold text-purple-600 uppercase">Chủ đề 4</span>
+                            <h3 class="font-bold text-brand-text text-sm mb-1">Giao tiếp & hợp tác học tập</h3>
+                            <p class="text-xs text-brand-muted line-clamp-2">Lắng nghe, trình bày ý kiến, tôn trọng ý kiến khác biệt nhóm.</p>
+                        </div>
+                        <div class="text-[11px] font-bold text-purple-600 pt-3 mt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span>Khám phá học liệu</span> <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- ================= 7. TRANG QUẢN TRỊ ADMIN ================= -->
-        <section id="tab-admin" class="tab-content hidden">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4 bg-primaryDark text-white p-6 sm:p-8 rounded-3xl shadow-lg">
+            <!-- Học liệu nổi bật -->
+            <section class="space-y-6 text-left">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
                     <div>
-                        <span class="bg-accentYellow text-gray-900 font-extrabold text-xs px-3 py-1 rounded-full uppercase">⚙️ Quản trị viên</span>
-                        <h1 class="text-2xl sm:text-3xl font-extrabold mt-2 mb-1">Bảng điều khiển Admin</h1>
-                        <p class="text-blue-100 text-xs sm:text-sm">Kiểm duyệt học liệu và quản lý hệ thống.</p>
+                        <span class="bg-amber-100 text-amber-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Tiêu biểu</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-brand-text tracking-tight mt-2">Học Liệu Được Đánh Giá Cao ⭐</h2>
                     </div>
-                    <button onclick="handleLogout()" class="px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs rounded-xl border border-white/20 transition">Đăng xuất Admin</button>
+                    <button onclick="switchTab('hoc-lieu')" class="text-brand-primary hover:text-brand-deep font-bold text-xs inline-flex items-center gap-1 cursor-pointer">
+                        Xem tất cả kho học liệu <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
 
-                <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
-                    <button onclick="switchAdminTab('dashboard')" id="adm-tab-dash" class="px-5 py-2.5 rounded-xl font-bold text-xs bg-primary text-white shadow flex-shrink-0">📊 Thống kê</button>
-                    <button onclick="switchAdminTab('moderation')" id="adm-tab-mod" class="px-5 py-2.5 rounded-xl font-bold text-xs bg-white text-gray-700 hover:bg-gray-100 shadow-sm flex-shrink-0">⏳ Kiểm duyệt (<span id="pending-count-badge">0</span>)</button>
-                    <button onclick="switchAdminTab('users')" id="adm-tab-usr" class="px-5 py-2.5 rounded-xl font-bold text-xs bg-white text-gray-700 hover:bg-gray-100 shadow-sm flex-shrink-0">👥 Tài khoản</button>
+                <div id="homeFeaturedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="col-span-full bg-white p-8 rounded-2xl border border-brand-border text-center text-xs text-brand-muted">
+                        Hiện chưa có học liệu mẫu nào trong hệ thống. Thầy/cô hãy đóng góp học liệu đầu tiên nhé!
+                    </div>
                 </div>
+            </section>
+        </div>
 
-                <div id="admin-body-container" class="space-y-6"></div>
+        <!-- 2. KHO HỌC LIỆU -->
+        <div id="tab-hoc-lieu" class="tab-content hidden space-y-6 text-left">
+            <div class="bg-white rounded-2xl border border-brand-border p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="bg-brand-light text-brand-primary text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Thư viện tài nguyên số</span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-text mt-1">Kho Học Liệu Giao Tiếp Tiểu Học</h1>
+                    <p class="text-xs sm:text-sm text-brand-muted mt-0.5">Tìm kiếm, lọc chi tiết theo mạch chủ đề, ý nhỏ và tải xuống học liệu chính thống.</p>
+                </div>
+                <div class="w-full md:w-80 relative">
+                    <input id="searchInput" type="text" oninput="filterMaterials()" placeholder="Nhập tên học liệu, từ khóa..." class="w-full pl-9 pr-4 py-2.5 text-xs bg-brand-bg border border-brand-border rounded-btn text-brand-text focus:outline-none focus:border-brand-primary shadow-xs" />
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-brand-muted"></i>
+                </div>
             </div>
-        </section>
 
+            <!-- Dải ô mạch chủ đề ngang (Filter Pills) -->
+            <div class="bg-white p-4 rounded-2xl border border-brand-border shadow-xs overflow-x-auto flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-700 uppercase tracking-wider whitespace-nowrap mr-2"><i class="fa-solid fa-shapes text-brand-primary mr-1"></i> Mạch chủ đề:</span>
+                <button onclick="selectTopicFilter('all')" id="pill-topic-all" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-primary text-white shadow-xs transition cursor-pointer whitespace-nowrap">Tất cả</button>
+                <button onclick="selectTopicFilter('1')" id="pill-topic-1" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap">1. Làm quen & kết bạn</button>
+                <button onclick="selectTopicFilter('2')" id="pill-topic-2" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap">2. Xây dựng tình bạn</button>
+                <button onclick="selectTopicFilter('3')" id="pill-topic-3" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap">3. Cảm thông & giúp đỡ</button>
+                <button onclick="selectTopicFilter('4')" id="pill-topic-4" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap">4. Hợp tác học tập</button>
+                <button onclick="selectTopicFilter('5')" id="pill-topic-5" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap">5. Lịch sự (Cảm ơn/Xin lỗi)</button>
+                <button onclick="selectTopicFilter('6')" id="pill-topic-6" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap">6. Ứng xử đời sống</button>
+                <button onclick="selectTopicFilter('7')" id="pill-topic-7" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap">7. Bảo vệ bản thân</button>
+                <button onclick="selectTopicFilter('khac')" id="pill-topic-khac" class="topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap">Khác</button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
+                
+                <!-- Cột bộ lọc đứng kèm các mạch chủ đề & ý nhỏ chi tiết -->
+                <div class="lg:col-span-1 bg-white p-5 rounded-2xl border border-brand-border shadow-xs space-y-6">
+                    <div class="flex items-center justify-between pb-3 border-b border-brand-border">
+                        <h3 class="font-bold text-sm text-brand-text flex items-center gap-2">
+                            <i class="fa-solid fa-filter text-brand-primary"></i> Bộ Lọc Đứng
+                        </h3>
+                        <button onclick="resetFilters()" class="text-xs text-brand-primary hover:underline font-semibold">Xóa lọc</button>
+                    </div>
+
+                    <!-- Lọc theo Mạch Chủ Đề & Ý nhỏ chi tiết -->
+                    <div class="space-y-3">
+                        <label class="block text-xs font-bold text-brand-text uppercase tracking-wider">Mạch Chủ Đề & Ý Nhỏ</label>
+                        <select id="filterTopicDetail" onchange="filterMaterials()" class="w-full px-3 py-2 rounded-btn border border-brand-border text-xs bg-brand-bg font-medium focus:outline-none focus:border-brand-primary">
+                            <option value="all">-- Tất cả mạch chủ đề --</option>
+                            <optgroup label="Chủ đề 1: Làm quen và kết bạn">
+                                <option value="1-1">Giới thiệu bản thân với bạn mới</option>
+                                <option value="1-2">Chủ động bắt chuyện, làm quen</option>
+                                <option value="1-3">Cách tham gia vào một nhóm bạn</option>
+                            </optgroup>
+                            <optgroup label="Chủ đề 2: Xây dựng & duy trì tình bạn">
+                                <option value="2-1">Quan tâm, chia sẻ với bạn bè</option>
+                                <option value="2-2">Giải quyết mâu thuẫn trong tình bạn</option>
+                                <option value="2-3">Không nói xấu, chế giễu hoặc cô lập bạn</option>
+                            </optgroup>
+                            <optgroup label="Chủ đề 3: Cảm thông & giúp đỡ">
+                                <option value="3-1">Nhận biết cảm xúc người đối diện</option>
+                                <option value="3-2">Nói lời động viên, an ủi</option>
+                                <option value="3-3">Giúp đỡ bạn khi gặp khó khăn</option>
+                            </optgroup>
+                            <optgroup label="Chủ đề 4: Hợp tác học tập">
+                                <option value="4-1">Lắng nghe khi người khác nói</option>
+                                <option value="4-2">Trình bày ý kiến trước nhóm</option>
+                                <option value="4-3">Tôn trọng ý kiến khác biệt</option>
+                            </optgroup>
+                            <optgroup label="Chủ đề 5: Lịch sự (Cảm ơn, xin lỗi)">
+                                <option value="5-1">Khi nào cần nói lời cảm ơn?</option>
+                                <option value="5-2">Xin lỗi đúng cách và biết sửa lỗi</option>
+                            </optgroup>
+                            <optgroup label="Chủ đề 6: Ứng xử đời sống">
+                                <option value="6-1">Xin phép khi sử dụng đồ của người khác</option>
+                                <option value="6-2">Giao tiếp khi mua bán, hỏi đường</option>
+                            </optgroup>
+                            <optgroup label="Chủ đề 7: Bảo vệ bản thân">
+                                <option value="7-1">Biết nói không trước đề nghị không phù hợp</option>
+                                <option value="7-2">Ứng xử khi người lạ tiếp cận</option>
+                            </optgroup>
+                            <optgroup label="Khác">
+                                <option value="khac">Chủ đề khác / Bổ trợ</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <!-- Lọc theo Loại tài nguyên -->
+                    <div class="space-y-2 pt-3 border-t border-brand-border">
+                        <label class="block text-xs font-bold text-brand-text uppercase tracking-wider">Loại Học Liệu</label>
+                        <div class="space-y-1.5 text-xs">
+                            <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
+                                <input type="radio" name="sidebarType" value="all" checked onchange="filterMaterials()"> Tất cả định dạng
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
+                                <input type="radio" name="sidebarType" value="video" onchange="filterMaterials()"> Video / Truyện tranh
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
+                                <input type="radio" name="sidebarType" value="game" onchange="filterMaterials()"> Trò chơi tương tác
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
+                                <input type="radio" name="sidebarType" value="sheet" onchange="filterMaterials()"> Phiếu bài tập
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
+                                <input type="radio" name="sidebarType" value="giaovien" onchange="filterMaterials()"> Giáo án mẫu sư phạm
+                            </label>
+                            <label class="flex items-center gap-2 cursor-pointer p-1.5 rounded hover:bg-brand-ice font-medium text-slate-700">
+                                <input type="radio" name="sidebarType" value="khac" onchange="filterMaterials()"> Khác (Tài nguyên tự do)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lưới danh sách học liệu -->
+                <div class="lg:col-span-3 space-y-4">
+                    <div id="materialsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="col-span-full bg-white p-8 rounded-2xl border border-brand-border text-center text-xs text-brand-muted">
+                            Chưa có học liệu nào được xuất bản trong thư viện. Thầy/cô hãy bấm "Đóng góp học liệu" để chia sẻ tài nguyên.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. MẠCH CHỦ ĐỀ GIAO TIẾP -->
+        <div id="tab-chu-de" class="tab-content hidden space-y-6 text-left">
+            <div class="bg-white rounded-2xl border border-brand-border p-6 shadow-xs text-center max-w-3xl mx-auto space-y-2">
+                <span class="bg-purple-100 text-purple-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Hệ thống kỹ năng</span>
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-text">7 Mạch Chủ Đề Giao Tiếp Tiểu Học</h1>
+                <p class="text-xs sm:text-sm text-brand-muted">Chi tiết các nội dung và ý nhỏ chuẩn theo khung chương trình giáo dục kỹ năng.</p>
+            </div>
+
+            <div class="space-y-6">
+                <!-- Chủ đề 1 -->
+                <div class="bg-white rounded-card p-6 border-2 border-blue-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-handshake"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-blue-600 uppercase">Chủ đề 1</span>
+                            <h3 class="font-extrabold text-brand-text text-lg">Làm quen và kết bạn</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-blue-600"></i> Giới thiệu bản thân với bạn mới
+                        </div>
+                        <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-blue-600"></i> Chủ động bắt chuyện, làm quen
+                        </div>
+                        <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-blue-600"></i> Cách tham gia vào một nhóm bạn
+                        </div>
+                        <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-blue-600"></i> Lời nói và hành vi khi gặp gỡ người mới
+                        </div>
+                        <div class="p-3 bg-blue-50/60 rounded-xl border border-blue-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-blue-600"></i> Ứng xử khi bạn không muốn làm quen
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chủ đề 2 -->
+                <div class="bg-white rounded-card p-6 border-2 border-amber-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-amber-500 text-white rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-users-rectangle"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-amber-600 uppercase">Chủ đề 2</span>
+                            <h3 class="font-extrabold text-brand-text text-lg">Xây dựng và duy trì tình bạn</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-600"></i> Quan tâm, chia sẻ với bạn bè
+                        </div>
+                        <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-600"></i> Giữ lời hứa với bạn
+                        </div>
+                        <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-600"></i> Giải quyết mâu thuẫn trong tình bạn
+                        </div>
+                        <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-600"></i> Không nói xấu, chế giễu hoặc cô lập bạn
+                        </div>
+                        <div class="p-3 bg-amber-50/60 rounded-xl border border-amber-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-amber-600"></i> Làm gì khi bạn giận hoặc hiểu lầm mình?
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chủ đề 3 -->
+                <div class="bg-white rounded-card p-6 border-2 border-emerald-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-emerald-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-hands-holding-child"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-emerald-600 uppercase">Chủ đề 3</span>
+                            <h3 class="font-extrabold text-brand-text text-lg">Cảm thông và giúp đỡ người khác</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i> Nhận biết cảm xúc của người đối diện
+                        </div>
+                        <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i> Nói lời động viên, an ủi
+                        </div>
+                        <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i> Giúp đỡ bạn khi gặp khó khăn
+                        </div>
+                        <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i> Chia sẻ với người có hoàn cảnh khó khăn
+                        </div>
+                        <div class="p-3 bg-emerald-50/60 rounded-xl border border-emerald-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-emerald-600"></i> Không thờ ơ trước khó khăn của người khác
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chủ đề 4 -->
+                <div class="bg-white rounded-card p-6 border-2 border-purple-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-purple-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-book-bookmark"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-purple-600 uppercase">Chủ đề 4</span>
+                            <h3 class="font-extrabold text-brand-text text-lg">Giao tiếp và hợp tác trong học tập</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="p-3 bg-purple-50/60 rounded-xl border border-purple-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-purple-600"></i> Lắng nghe khi người khác nói
+                        </div>
+                        <div class="p-3 bg-purple-50/60 rounded-xl border border-purple-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-purple-600"></i> Trình bày ý kiến trước nhóm
+                        </div>
+                        <div class="p-3 bg-purple-50/60 rounded-xl border border-purple-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-purple-600"></i> Biết trao đổi và phản hồi ý kiến
+                        </div>
+                        <div class="p-3 bg-purple-50/60 rounded-xl border border-purple-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-purple-600"></i> Tôn trọng ý kiến khác biệt
+                        </div>
+                        <div class="p-3 bg-purple-50/60 rounded-xl border border-purple-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-purple-600"></i> Phân công nhiệm vụ và giải quyết bất đồng nhóm
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chủ đề 5 -->
+                <div class="bg-white rounded-card p-6 border-2 border-rose-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-rose-500 text-white rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-face-smile"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-rose-600 uppercase">Chủ đề 5</span>
+                            <h3 class="font-extrabold text-brand-text text-lg">Giao tiếp lịch sự: Cảm ơn, xin lỗi và ứng xử phù hợp</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="p-3 bg-rose-50/60 rounded-xl border border-rose-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-rose-600"></i> Khi nào cần nói lời cảm ơn?
+                        </div>
+                        <div class="p-3 bg-rose-50/60 rounded-xl border border-rose-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-rose-600"></i> Xin lỗi đúng cách và biết sửa lỗi
+                        </div>
+                        <div class="p-3 bg-rose-50/60 rounded-xl border border-rose-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-rose-600"></i> Biết xin phép trước khi thực hiện hành động
+                        </div>
+                        <div class="p-3 bg-rose-50/60 rounded-xl border border-rose-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-rose-600"></i> Sử dụng lời nói lịch sự trong giao tiếp
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chủ đề 6 -->
+                <div class="bg-white rounded-card p-6 border-2 border-cyan-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-cyan-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-house-chimney-user"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-cyan-600 uppercase">Chủ đề 6</span>
+                            <h3 class="font-extrabold text-brand-text text-lg">Ứng xử trong các tình huống đời sống</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="p-3 bg-cyan-50/60 rounded-xl border border-cyan-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-600"></i> Xin phép khi muốn sử dụng đồ của người khác
+                        </div>
+                        <div class="p-3 bg-cyan-50/60 rounded-xl border border-cyan-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-600"></i> Tôn trọng tài sản chung và riêng
+                        </div>
+                        <div class="p-3 bg-cyan-50/60 rounded-xl border border-cyan-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-600"></i> Giao tiếp khi mua bán, hỏi đường
+                        </div>
+                        <div class="p-3 bg-cyan-50/60 rounded-xl border border-cyan-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-cyan-600"></i> Ứng xử nơi công cộng và nơi đông người
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chủ đề 7 -->
+                <div class="bg-white rounded-card p-6 border-2 border-indigo-200 shadow-sm space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-indigo-600 text-white rounded-2xl flex items-center justify-center text-xl shadow-sm">
+                            <i class="fa-solid fa-shield-heart"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-indigo-600 uppercase">Chủ đề 7</span>
+                            <h3 class="font-extrabold text-brand-text text-lg">Bảo vệ bản thân trong giao tiếp</h3>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        <div class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-indigo-600"></i> Biết nói không trước lời đề nghị không phù hợp
+                        </div>
+                        <div class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-indigo-600"></i> Nhận diện tình huống giao tiếp không an toàn
+                        </div>
+                        <div class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-indigo-600"></i> Ứng xử khi người lạ tiếp cận
+                        </div>
+                        <div class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-indigo-600"></i> Biết tìm kiếm sự giúp đỡ từ người đáng tin cậy
+                        </div>
+                        <div class="p-3 bg-indigo-50/60 rounded-xl border border-indigo-100 text-xs text-brand-text font-medium flex items-center gap-2">
+                            <i class="fa-solid fa-circle-check text-indigo-600"></i> Bảo vệ thông tin cá nhân khi giao tiếp trực tuyến
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. GÓC CHIA SẺ TÂM SỰ -->
+        <div id="tab-thuc-hanh" class="tab-content hidden space-y-6 text-left">
+            <div class="bg-white rounded-2xl border border-brand-border p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div>
+                    <span class="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Không gian sẻ chia</span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-text mt-1">Góc Chia Sẻ Tâm Sự Các Câu Chuyện</h1>
+                    <p class="text-xs sm:text-sm text-brand-muted">Nơi giáo viên và học sinh chia sẻ những câu chuyện thực tế, bài học ứng xử và tâm sự đáng nhớ!</p>
+                </div>
+                <button onclick="openModal('createQuestionModal')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-btn text-xs shadow-soft transition cursor-pointer flex items-center gap-2">
+                    <i class="fa-solid fa-pen-nib"></i> Đăng bài tâm sự / câu chuyện mới
+                </button>
+            </div>
+
+            <!-- Khu vực hiển thị danh sách câu chuyện / tâm sự -->
+            <div id="practiceQuestionsContainer" class="space-y-6 max-w-3xl mx-auto">
+                <div class="bg-white rounded-card p-6 sm:p-8 shadow-soft border border-brand-border space-y-4 relative">
+                    <span class="absolute top-4 right-4 bg-emerald-100 text-emerald-800 font-bold text-[10px] px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-face-smile text-amber-500 mr-1"></i> 😊 Vui vẻ & Ấm áp
+                    </span>
+                    <div class="flex items-center gap-3">
+                        <img src="https://placehold.co/100x100/0284C7/ffffff?text=UEd" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h4 class="font-bold text-brand-text text-sm">Ban Quản Trị UEd</h4>
+                            <p class="text-[11px] text-brand-muted">Chia sẻ gần đây</p>
+                        </div>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-base">Câu chuyện đầu tuần: Lời xin lỗi diệu kỳ</h3>
+                    <p class="text-slate-800 text-xs leading-relaxed">
+                        "Hôm nay trong giờ ra chơi, em bé Nam vô tình làm rơi sách của bạn An. Thay vì bỏ chạy, Nam đã dõng dạc nói lời xin lỗi và cùng bạn nhặt sách lên. Một hành động nhỏ nhưng kết nối tình bạn thật đẹp!"
+                    </p>
+                    <div class="flex items-center gap-4 text-xs text-brand-muted pt-2 border-t border-brand-border">
+                        <button onclick="showToast('Đã thả tim bài viết!', 'success')" class="hover:text-rose-600 flex items-center gap-1 cursor-pointer"><i class="fa-solid fa-heart text-rose-500"></i> Thích (15)</button>
+                        <span><i class="fa-solid fa-comment mr-1 text-brand-primary"></i> 2 bình luận</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. CỘNG ĐỒNG -->
+        <div id="tab-cong-dong" class="tab-content hidden space-y-6 text-left">
+            <div class="bg-white rounded-2xl border border-brand-border p-6 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <span class="bg-rose-100 text-rose-800 text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Kết nối sư phạm</span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-brand-text mt-1">Cộng Đồng Giáo Viên & Sinh Viên UEd</h1>
+                    <p class="text-xs sm:text-sm text-brand-muted mt-0.5">Không gian chia sẻ kinh nghiệm giảng dạy kỹ năng giao tiếp tiểu học.</p>
+                </div>
+                <button onclick="openModal('uploadModal')" class="px-5 py-2.5 bg-brand-primary text-white text-xs font-bold rounded-btn shadow-soft hover:bg-brand-deep transition-all inline-flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-plus mr-1"></i> Chia sẻ học liệu mới
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="bg-white p-6 rounded-card border border-brand-border space-y-4 shadow-xs">
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1721677326830-dfa05721e257?auto=format&fit=crop&w=100&q=80" alt="Avatar" class="w-12 h-12 rounded-full object-cover border border-brand-primary">
+                        <div>
+                            <h4 class="font-bold text-brand-text text-sm">Khoa GD Sớm & Tiểu học UEd</h4>
+                            <p class="text-[11px] text-brand-muted">Trường ĐH Giáo dục – ĐHQGHN</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-brand-muted italic">"Nền tảng tuyệt vời giúp giáo viên và sinh viên UEd có thêm tư liệu thực tế để giảng dạy kỹ năng giao tiếp cho học sinh."</p>
+                    <div class="flex items-center justify-between text-[11px] text-brand-muted pt-2 border-t border-brand-border">
+                        <span>Đơn vị phát triển</span>
+                        <span class="text-emerald-600 font-bold"><i class="fa-solid fa-circle-check"></i> UEd Chính thống</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. TỦ HỌC LIỆU CÁ NHÂN CỦA GIÁO VIÊN / ADMIN -->
+        <div id="tab-dashboard" class="tab-content hidden space-y-6 text-left max-w-5xl mx-auto">
+            <div class="bg-white rounded-2xl border border-brand-border p-6 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-brand-light text-brand-primary rounded-2xl flex items-center justify-center text-xl font-bold border border-brand-primary/30" id="dashAvatarBox">
+                        GV
+                    </div>
+                    <div>
+                        <h1 class="text-xl sm:text-2xl font-extrabold text-brand-text" id="dashTeacherName">Thầy/Cô Giáo Viên</h1>
+                        <p class="text-xs text-brand-muted" id="dashRoleDesc">Tủ lưu trữ các học liệu và giáo án mẫu đã đóng góp</p>
+                    </div>
+                </div>
+                <button onclick="openModal('uploadModal')" class="bg-brand-primary hover:bg-brand-deep text-white font-bold px-4 py-2.5 rounded-btn text-xs shadow-soft transition cursor-pointer flex items-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Đóng góp thêm học liệu
+                </button>
+            </div>
+
+            <div class="bg-white rounded-card border border-brand-border p-6 shadow-xs space-y-4">
+                <h3 class="font-bold text-sm text-brand-text" id="dashListTitle">Danh sách học liệu bạn đã đóng góp</h3>
+                <div id="myUploadedList" class="space-y-3">
+                    <p class="text-xs text-slate-500">Chưa có học liệu nào được đóng góp.</p>
+                </div>
+            </div>
+        </div>
     </main>
 
-    <!-- ================= FOOTER ================= -->
-    <footer class="bg-white border-t border-gray-100 mt-20 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div class="space-y-4">
+    <!-- CHÂN TRANG (FOOTER) -->
+    <footer class="bg-brand-deep text-white mt-16 pt-12 pb-8 border-t-4 border-brand-primary text-left">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="space-y-3">
                     <div class="flex items-center gap-3">
-                        <img src="https://i.ibb.co/3m3v33v/image.png" alt="Logo" class="h-10 w-auto object-contain">
-                        <span class="text-base font-extrabold text-primaryDark">Lời Hay Ý Đúng</span>
+                        <div class="w-10 h-10 rounded-xl bg-white/10 text-white flex items-center justify-center font-black text-sm shadow-sm border border-brand-primary">
+                            UEd
+                        </div>
+                        <span class="text-base font-bold">Lời Hay Ý Đúng</span>
                     </div>
-                    <p class="text-xs text-neutralText leading-relaxed">Khoa Giáo dục sớm và Tiểu học<br>Trường Đại học Giáo dục - ĐHQGHN</p>
+                    <p class="text-blue-100/80 text-xs leading-relaxed">
+                        Nền tảng học liệu số giáo dục tiểu học hỗ trợ phát triển kỹ năng giao tiếp. Được nghiên cứu và phát triển bởi <span class="font-semibold text-amber-300"><i class="fa-solid fa-seedling mr-1"></i> Khoa Giáo dục sớm và Tiểu học</span> – <span class="font-semibold text-white">Trường Đại học Giáo dục – Đại học Quốc gia Hà Nội</span>.
+                    </p>
+                    <div class="text-xs text-blue-100/90 space-y-1">
+                        <p><i class="fa-solid fa-location-dot mr-2 text-brand-sky"></i> Tòa HT2, KĐT ĐHQGHN, Hòa Lạc, Hà Nội</p>
+                        <p><i class="fa-solid fa-envelope mr-2 text-brand-sky"></i> khoagdsdth@ued.vnu.edu.vn</p>
+                    </div>
                 </div>
-                <div>
-                    <h4 class="font-extrabold text-primaryDark text-sm mb-3">Liên kết nhanh</h4>
-                    <ul class="space-y-2 text-xs text-neutralText font-medium">
-                        <li><button onclick="switchTab('repository')" class="hover:text-primary">Kho học liệu số</button></li>
-                        <li><button onclick="switchTab('topics')" class="hover:text-primary">7 Chủ đề giao tiếp</button></li>
-                        <li><button onclick="switchTab('practice')" class="hover:text-primary">Góc thực hành</button></li>
-                        <li><button onclick="switchTab('community')" class="hover:text-primary">Cộng đồng chia sẻ</button></li>
+
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs text-brand-light uppercase tracking-wider mb-3">Khám phá nhanh</h4>
+                    <ul class="space-y-2 text-xs text-blue-100/90">
+                        <li><button onclick="switchTab('trang-chu')" class="hover:text-white transition cursor-pointer">Trang chủ</button></li>
+                        <li><button onclick="switchTab('hoc-lieu')" class="hover:text-white transition cursor-pointer">Kho học liệu số</button></li>
+                        <li><button onclick="switchTab('chu-de')" class="hover:text-white transition cursor-pointer">Mạch chủ đề</button></li>
+                        <li><button onclick="switchTab('thuc-hanh')" class="hover:text-white transition cursor-pointer">Góc chia sẻ tâm sự</button></li>
                     </ul>
                 </div>
-                <div>
-                    <h4 class="font-extrabold text-primaryDark text-sm mb-3">Đơn vị chủ quản</h4>
-                    <p class="text-xs text-neutralText leading-relaxed">Trường Đại học Giáo dục - Đại học Quốc gia Hà Nội<br>Giáo dục vì ngày mai - Education for Tomorrow.</p>
+
+                <div class="space-y-2">
+                    <h4 class="font-bold text-xs text-brand-light uppercase tracking-wider mb-3">Đơn vị chủ quản</h4>
+                    <ul class="space-y-2 text-xs text-blue-100/90">
+                        <li><a href="#" class="hover:text-white transition">Trường Đại học Giáo dục – ĐHQGHN</a></li>
+                        <li><a href="#" class="hover:text-white transition">Khoa Giáo dục sớm và Tiểu học</a></li>
+                        <li><a href="#" class="hover:text-white transition">Hệ sinh thái học tập số UEd</a></li>
+                    </ul>
                 </div>
-                <div>
-                    <h4 class="font-extrabold text-primaryDark text-sm mb-3">Quản trị hệ thống</h4>
-                    <button onclick="openAuthModal('login')" class="px-4 py-2.5 bg-primary text-white font-bold text-xs rounded-xl shadow hover:bg-primaryDark transition">🔑 Đăng nhập Admin</button>
+
+                <div class="space-y-3">
+                    <h4 class="font-bold text-xs text-brand-light uppercase tracking-wider mb-3">Ứng dụng di động</h4>
+                    <p class="text-xs text-blue-100/80">Hỗ trợ cài đặt PWA trên máy tính bảng và điện thoại.</p>
+                    <button onclick="showToast('Tính năng PWA đang sẵn sàng!', 'info')" class="bg-brand-primary hover:bg-brand-sky text-white text-xs font-bold px-4 py-2.5 rounded-btn w-full transition shadow-xs cursor-pointer">
+                        <i class="fa-solid fa-mobile-screen-button mr-2"></i> Cài đặt PWA
+                    </button>
                 </div>
             </div>
-            <div class="border-t border-gray-100 pt-6 text-center text-xs text-neutralText font-medium">
-                © 2026 Lời Hay Ý Đúng • Khoa Giáo dục sớm và Tiểu học - ĐH Giáo dục - ĐHQGHN.
+
+            <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-xs text-blue-100/60 gap-3">
+                <p>&copy; 2026 Khoa Giáo dục sớm và Tiểu học – Trường Đại học Giáo dục – ĐHQGHN. Bảo lưu mọi quyền.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="hover:text-white">Chính sách bảo mật</a>
+                    <a href="#" class="hover:text-white">Điều khoản sử dụng</a>
+                </div>
             </div>
         </div>
     </footer>
 
-    <!-- ================= MODALS ================= -->
-    <div id="detail-modal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button onclick="closeDetailModal()" class="absolute top-4 right-4 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200">
-                <i class="fa-solid fa-xmark text-lg"></i>
+    <!-- MODAL CHI TIẾT HỌC LIỆU -->
+    <div id="detailModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('detailModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-            <div id="detail-modal-content"></div>
+            <div class="flex items-center justify-between">
+                <span class="bg-brand-light text-brand-primary text-[11px] font-bold px-3 py-1 rounded-full" id="modalCategory">Video tương tác</span>
+                <div class="flex items-center text-amber-500 font-bold text-xs bg-amber-50 px-2.5 py-1 rounded-xl border border-amber-200">
+                    <i class="fa-solid fa-star mr-1"></i> <span id="modalRating">4.9</span> / 5.0 sao
+                </div>
+            </div>
+            <h3 class="text-lg font-bold text-brand-text" id="modalTitle">Tên học liệu</h3>
+            <p class="text-xs text-brand-muted" id="modalAuthor">Tác giả: Khoa GD Sớm & Tiểu học</p>
+            
+            <!-- Khung xem trước học liệu: Đảm bảo video KHÔNG tự phát autoplay -->
+            <div id="modalPreviewBox" class="bg-slate-900 rounded-xl p-4 text-center text-white space-y-2">
+                <div class="aspect-video bg-slate-800 rounded-lg flex flex-col items-center justify-center p-4 border border-slate-700 relative overflow-hidden">
+                    <video controls preload="none" class="w-full h-full object-contain rounded-md" poster="https://placehold.co/600x400/0284C7/ffffff?text=Video+Preview">
+                        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        Trình duyệt không hỗ trợ thẻ video.
+                    </video>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                    <span>* Video không tự phát (yêu cầu bấm phát)</span>
+                    <a id="modalExternalLinkBtn" href="#" target="_blank" rel="noopener noreferrer" class="text-brand-sky hover:underline font-semibold flex items-center gap-1">
+                        Mở liên kết gốc trong tab mới <i class="fa-solid fa-external-link-alt text-[10px]"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-brand-bg p-4 rounded-xl text-xs text-brand-muted space-y-2 border border-brand-border">
+                <p><strong>Mục tiêu sư phạm:</strong> Giúp học sinh nắm vững các nguyên tắc giao tiếp lịch sự và xây dựng mối quan hệ bạn bè đoàn kết.</p>
+                <div class="flex items-center gap-4 pt-1 font-semibold text-brand-text">
+                    <span id="modalDownloadCount"><i class="fa-solid fa-download mr-1 text-brand-primary"></i> 420 lượt tải</span>
+                    <span id="modalLikeCount" onclick="toggleLikeModal()" class="cursor-pointer text-rose-600 hover:underline"><i class="fa-solid fa-heart mr-1"></i> <span id="likeNum">89</span> Yêu thích</span>
+                </div>
+            </div>
+
+            <!-- Khu vực đánh giá sao -->
+            <div class="pt-2 border-t border-brand-border space-y-1.5">
+                <p class="text-xs font-semibold text-brand-text">Đánh giá sao của bạn:</p>
+                <div class="flex items-center gap-1 text-lg text-amber-400 cursor-pointer">
+                    <i class="fa-solid fa-star hover:text-amber-500" onclick="showToast('Cảm ơn bạn đã đánh giá 5 sao!', 'success')"></i>
+                    <i class="fa-solid fa-star hover:text-amber-500" onclick="showToast('Cảm ơn bạn đã đánh giá 5 sao!', 'success')"></i>
+                    <i class="fa-solid fa-star hover:text-amber-500" onclick="showToast('Cảm ơn bạn đã đánh giá 5 sao!', 'success')"></i>
+                    <i class="fa-solid fa-star hover:text-amber-500" onclick="showToast('Cảm ơn bạn đã đánh giá 5 sao!', 'success')"></i>
+                    <i class="fa-solid fa-star hover:text-amber-500" onclick="showToast('Cảm ơn bạn đã đánh giá 5 sao!', 'success')"></i>
+                </div>
+            </div>
+
+            <!-- Khu vực Bình luận / Góp ý học liệu -->
+            <div class="pt-2 border-t border-brand-border space-y-3">
+                <p class="text-xs font-semibold text-brand-text">Góp ý & Bình luận từ đồng nghiệp:</p>
+                <div class="space-y-2 max-h-32 overflow-y-auto text-xs">
+                    <div class="bg-brand-bg p-2.5 rounded-xl border border-brand-border">
+                        <strong>Giáo viên tiểu học:</strong> "Học liệu thiết kế trực quan, rất hữu ích cho các tiết giáo dục kỹ năng."
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="commentInput" placeholder="Nhập bình luận hoặc góp ý của bạn..." class="flex-1 px-3 py-2 rounded-btn border border-brand-border text-xs bg-brand-bg focus:outline-none focus:border-brand-primary">
+                    <button onclick="submitComment()" class="bg-brand-primary text-white px-4 py-2 rounded-btn text-xs font-bold cursor-pointer hover:bg-brand-deep">Gửi</button>
+                </div>
+            </div>
+
+            <!-- Nút Tải về -->
+            <div class="pt-3 border-t border-brand-border">
+                <button onclick="requestDownload()" class="w-full bg-brand-primary hover:bg-brand-deep text-white font-bold py-3 rounded-btn text-xs shadow-soft transition cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> Tải xuống học liệu (Quy chế chia sẻ)
+                </button>
+            </div>
         </div>
     </div>
 
-    <!-- UPLOAD MODAL -->
-    <div id="upload-modal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl max-h-[92vh] overflow-y-auto">
-            <button onclick="closeUploadModal()" class="absolute top-4 right-4 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200">
-                <i class="fa-solid fa-xmark text-lg"></i>
+    <!-- MODAL ĐĂNG TẢI HỌC LIỆU / GIÁO ÁN -->
+    <div id="uploadModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('uploadModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-            <h3 class="text-xl font-extrabold text-primaryDark mb-2">📤 Đóng góp & Đẩy học liệu mới</h3>
-            <p class="text-xs text-neutralText mb-6">Tải tệp trực tiếp từ máy tính hoặc gắn liên kết chia sẻ.</p>
-            <div class="space-y-4 text-sm">
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1">Tên học liệu</label>
-                    <input type="text" id="up-title" placeholder="VD: Phiếu bài tập xử lý tình huống..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-brand-light text-brand-primary flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <h3 class="font-bold text-base text-brand-text">Đóng Góp Học Liệu / Giáo Án Mẫu</h3>
+                    <p class="text-xs text-brand-muted">Đẩy tài nguyên lên để mở khóa toàn bộ quyền tải về trong hệ thống!</p>
+                </div>
+            </div>
+
+            <form onsubmit="handleUpload(event)" class="space-y-3.5 pt-1">
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Tên học liệu / Tên giáo án <span class="text-red-500">*</span></label>
+                    <input type="text" id="upTitle" required placeholder="Ví dụ: Giáo án mẫu Chủ đề 1: Làm quen và kết bạn (Tiết 1)..." class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg">
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-gray-700 mb-1">Môn học</label>
-                        <select id="up-subject" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
-                            <option value="Tiếng Việt 4">Tiếng Việt 4</option>
-                            <option value="Đạo đức 4">Đạo đức 4</option>
-                            <option value="Hoạt động trải nghiệm">Hoạt động trải nghiệm</option>
-                            <option value="Tích hợp liên môn">Tích hợp liên môn</option>
+                        <label class="block text-xs font-semibold text-brand-text mb-1">Mạch chủ đề <span class="text-red-500">*</span></label>
+                        <select id="upTopic" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg font-medium">
+                            <option value="1">1. Làm quen và kết bạn</option>
+                            <option value="2">2. Xây dựng & duy trì tình bạn</option>
+                            <option value="3">3. Cảm thông & giúp đỡ người khác</option>
+                            <option value="4">4. Giao tiếp & hợp tác học tập</option>
+                            <option value="5">5. Lịch sự (Cảm ơn, xin lỗi)</option>
+                            <option value="6">6. Ứng xử đời sống</option>
+                            <option value="7">7. Bảo vệ bản thân</option>
+                            <option value="khac">Khác</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block font-bold text-gray-700 mb-1">Dạng học liệu</label>
-                        <select id="up-type" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
-                            <option value="Video">Video tình huống</option>
-                            <option value="Trò chơi">Trò chơi tương tác</option>
-                            <option value="Phiếu bài tập">Phiếu bài tập</option>
-                            <option value="Thẻ đóng vai">Thẻ đóng vai</option>
-                            <option value="Truyện tranh">Truyện tranh</option>
-                            <option value="Tài liệu hướng dẫn">Tài liệu hướng dẫn</option>
-                            <option value="Khác">Khác</option>
+                        <label class="block text-xs font-semibold text-brand-text mb-1">Loại tài nguyên <span class="text-red-500">*</span></label>
+                        <select id="upType" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg font-medium">
+                            <option value="video">Video / Truyện tranh</option>
+                            <option value="game">Trò chơi tương tác</option>
+                            <option value="sheet">Phiếu bài tập</option>
+                            <option value="giaovien">Giáo án mẫu sư phạm</option>
+                            <option value="khac">Khác (Tài nguyên tự do)</option>
                         </select>
                     </div>
                 </div>
+
                 <div>
-                    <label class="block font-bold text-gray-700 mb-1">Mô tả chi tiết</label>
-                    <textarea id="up-desc" rows="3" placeholder="Mô tả mục tiêu và cách sử dụng..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary"></textarea>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Liên kết học liệu trực tuyến hoặc video (YouTube / Google Drive)</label>
+                    <input type="url" id="upLink" placeholder="https://www.youtube.com/watch?v=..." class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Tải tệp học liệu lên (PDF, DOCX, MP4 - tối đa 50MB)</label>
+                    <input type="file" id="upFile" class="w-full text-xs text-brand-muted file:mr-4 file:py-2 file:px-4 file:rounded-btn file:border-0 file:text-xs file:font-semibold file:bg-brand-light file:text-brand-primary hover:file:bg-brand-border">
+                </div>
+
+                <button type="submit" class="w-full bg-brand-primary hover:bg-brand-deep text-white font-bold py-3 rounded-btn text-xs shadow-soft transition cursor-pointer">
+                    Xác nhận đóng góp học liệu
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL GIAO VIÊN ĐĂNG BÀI TÂM SỰ / CÂU CHUYỆN -->
+    <div id="createQuestionModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('createQuestionModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-pen-fancy"></i>
                 </div>
                 <div>
-                    <label class="block font-bold text-gray-700 mb-1">Hình thức tài nguyên</label>
-                    <select id="up-source-type" onchange="toggleSourceInput()" class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
-                        <option value="file">📁 Tải tệp trực tiếp từ máy tính (PDF, Word, PPT, MP4...)</option>
-                        <option value="link">🔗 Gắn đường dẫn liên kết (Google Drive, YouTube...)</option>
+                    <h3 class="font-bold text-base text-brand-text">Đăng Bài Tâm Sự / Câu Chuyện Sư Phạm</h3>
+                    <p class="text-xs text-brand-muted">Chia sẻ câu chuyện ứng xử, tâm sự học đường kèm hình ảnh minh họa</p>
+                </div>
+            </div>
+
+            <form onsubmit="handleCreateQuestion(event)" class="space-y-3.5 pt-1">
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Tiêu đề câu chuyện <span class="text-red-500">*</span></label>
+                    <input type="text" id="newQTitle" required placeholder="Ví dụ: Bài học về sự sẻ chia..." class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Cảm xúc / Tâm trạng bài viết</label>
+                    <select id="newQMood" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg font-medium">
+                        <option value="😊 Vui vẻ & Ấm áp">😊 Vui vẻ & Ấm áp</option>
+                        <option value="💡 Suy ngẫm & Sâu sắc">💡 Suy ngẫm & Sâu sắc</option>
+                        <option value="🌟 Cảm động & Yêu thương">🌟 Cảm động & Yêu thương</option>
+                        <option value="💬 Tâm sự học đường">💬 Tâm sự học đường</option>
                     </select>
                 </div>
-                <div id="source-file-group">
-                    <label class="block font-bold text-gray-700 mb-1">Chọn tệp từ máy tính</label>
-                    <input type="file" id="up-file-input" class="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium focus:outline-none">
+
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Nội dung chi tiết câu chuyện / tâm sự <span class="text-red-500">*</span></label>
+                    <textarea id="newQText" rows="4" required placeholder="Nhập nội dung chia sẻ, câu chuyện thực tế..." class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg"></textarea>
                 </div>
-                <div id="source-link-group" class="hidden">
-                    <label class="block font-bold text-gray-700 mb-1">Đường dẫn liên kết (URL)</label>
-                    <input type="text" id="up-link" placeholder="https://..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
+
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Đính kèm tệp / Hình ảnh minh họa tâm trạng (Tối đa 20MB)</label>
+                    <input type="file" id="newQFile" accept="image/*,.pdf,.doc,.docx" class="w-full text-xs text-brand-muted file:mr-4 file:py-2 file:px-4 file:rounded-btn file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
                 </div>
-                <button onclick="submitUploadItem()" class="w-full py-3.5 bg-primary text-white font-extrabold rounded-xl shadow hover:bg-primaryDark transition">Gửi học liệu kiểm duyệt</button>
-            </div>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-btn text-xs shadow-soft transition cursor-pointer">
+                    Đăng bài tâm sự lên cộng đồng
+                </button>
+            </form>
         </div>
     </div>
 
-    <!-- AUTH MODAL -->
-    <div id="auth-modal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200">
-                <i class="fa-solid fa-xmark text-lg"></i>
+    <!-- MODAL ĐĂNG NHẬP ADMIN BẢO MẬT -->
+    <div id="adminLoginModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl relative text-left">
+            <button onclick="closeModal('adminLoginModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-            <div class="flex bg-gray-100 p-1 rounded-2xl mb-6">
-                <button onclick="switchAuthMode('login')" id="auth-tab-login" class="flex-1 py-2.5 rounded-xl font-extrabold text-xs bg-white text-primary shadow-sm transition">Đăng nhập</button>
-                <button onclick="switchAuthMode('register')" id="auth-tab-register" class="flex-1 py-2.5 rounded-xl font-bold text-xs text-gray-600 hover:text-primary transition">Đăng ký</button>
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 bg-purple-100 text-purple-700 rounded-2xl flex items-center justify-center text-xl mx-auto mb-2">
+                    <i class="fa-solid fa-user-lock"></i>
+                </div>
+                <h3 class="font-bold text-lg text-brand-text">Đăng Nhập Quản Trị Admin</h3>
+                <p class="text-xs text-brand-muted">Dành riêng cho Ban Chuyên môn</p>
             </div>
-
-            <div id="auth-form-login" class="space-y-4">
-                <div class="text-xl font-extrabold text-primaryDark mb-2">Đăng nhập tài khoản</div>
-                <p class="text-xs text-neutralText mb-4">🔑 Nhập email và mật khẩu (Dùng <b>admin@loihayydung.edu.vn</b> / <b>admin123</b> để vào trang Quản trị).</p>
+            <form onsubmit="handleAdminLogin(event)" class="space-y-3 pt-2">
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email</label>
-                    <input type="email" id="auth-email" placeholder="email..." class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Tài khoản Admin</label>
+                    <input type="text" id="adminUserIn" required placeholder="admin" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs bg-brand-bg">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Mật khẩu</label>
-                    <input type="password" id="auth-pass" placeholder="••••••••" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Mật khẩu</label>
+                    <input type="password" id="adminPwdIn" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs bg-brand-bg">
                 </div>
-                <button onclick="handleAuthSubmit()" class="w-full py-3.5 bg-primary text-white font-extrabold rounded-xl shadow hover:bg-primaryDark transition">Đăng nhập</button>
-            </div>
-
-            <div id="auth-form-register" class="space-y-4 hidden">
-                <div class="text-xl font-extrabold text-primaryDark mb-2">Đăng ký tài khoản mới</div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Họ và tên</label>
-                    <input type="text" id="reg-name" placeholder="Nguyễn Văn A" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Email</label>
-                    <input type="email" id="reg-email" placeholder="email@edu.vn" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Vai trò</label>
-                    <select id="reg-role" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
-                        <option value="Giáo viên">Giáo viên tiểu học</option>
-                        <option value="Sinh viên ĐH Sư phạm">Sinh viên ngành Giáo dục tiểu học</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-gray-700 uppercase mb-1">Mật khẩu</label>
-                    <input type="password" id="reg-pass" placeholder="••••••••" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium focus:outline-none focus:border-primary">
-                </div>
-                <button onclick="handleRegisterSubmit()" class="w-full py-3.5 bg-accentGreen text-white font-extrabold rounded-xl shadow hover:bg-green-600 transition">Đăng ký</button>
-            </div>
+                <button type="submit" class="w-full bg-purple-700 hover:bg-purple-800 text-white font-bold py-3 rounded-btn text-xs shadow-soft transition cursor-pointer">
+                    Truy cập Cổng Quản Trị
+                </button>
+            </form>
         </div>
     </div>
 
-    <!-- CREATOR MODAL -->
-    <div id="creator-modal" class="fixed inset-0 z-50 bg-black/50 hidden flex items-center justify-center p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl max-h-[92vh] overflow-y-auto">
-            <button onclick="closeCreatorModal()" class="absolute top-4 right-4 w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 hover:bg-gray-200">
-                <i class="fa-solid fa-xmark text-lg"></i>
+    <!-- MODAL GIAO DIỆN QUẢN TRỊ ADMIN DUYỆT BÀI -->
+    <div id="adminModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 space-y-4 shadow-2xl relative text-left max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal('adminModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-            <h3 class="text-xl font-extrabold text-primaryDark mb-2">✏️ Tạo học liệu thực hành</h3>
-            <div class="space-y-4 text-sm mt-4">
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1">Tiêu đề tình huống</label>
-                    <input type="text" id="cr-title" placeholder="VD: Khi bạn quên vở..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
+            <div class="flex items-center gap-3 border-b border-brand-border pb-3">
+                <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-shield-halved"></i>
                 </div>
                 <div>
-                    <label class="block font-bold text-gray-700 mb-1">Nội dung mô tả</label>
-                    <textarea id="cr-desc" rows="3" placeholder="Mô tả bối cảnh..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary"></textarea>
+                    <h3 class="font-bold text-base text-brand-text">Cổng Kiểm Duyệt Học Liệu (Quản trị viên Admin)</h3>
+                    <p class="text-xs text-brand-muted">Phê duyệt hoặc từ chối học liệu/giáo án do giáo viên đóng góp</p>
                 </div>
-                <div>
-                    <label class="block font-bold text-gray-700 mb-1">Gợi ý ứng xử</label>
-                    <input type="text" id="cr-answer" placeholder="Cách xử lý lịch sự..." class="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl font-medium focus:outline-none focus:border-primary">
+            </div>
+
+            <div class="space-y-3" id="adminPendingListContainer">
+                <div class="p-4 bg-brand-bg rounded-xl border border-brand-border flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 font-bold text-[10px] px-2 py-0.5 rounded">Chờ duyệt</span>
+                        <h4 class="font-bold text-slate-900 text-sm mt-1">Giáo án mẫu Chủ đề 3: Cảm thông và giúp đỡ người khác</h4>
+                        <p class="text-slate-500 text-[11px] mt-0.5">Tác giả: Giáo viên • Nộp lúc: Hôm nay</p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="approveAdminItem(this)" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs cursor-pointer">Duyệt bài</button>
+                        <button onclick="rejectAdminItem(this)" class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg text-xs cursor-pointer">Từ chối</button>
+                    </div>
                 </div>
-                <button onclick="submitCreatorItem()" class="w-full py-3.5 bg-accentOrange text-white font-extrabold rounded-xl shadow hover:bg-orange-600 transition">Đăng lên Góc Thực Hành</button>
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        let topicsData = [
-            { id: 1, title: "1. Làm quen và kết bạn", desc: "Cách mở lời, giới thiệu bản thân và bắt đầu mối quan hệ thân thiện.", icon: "fa-user-plus", color: "bg-primary", count: 8 },
-            { id: 2, title: "2. Xây dựng và duy trì tình bạn", desc: "Chia sẻ, lắng nghe và vun đắp tình bạn gắn bó qua các hoạt động.", icon: "fa-handshake-angle", color: "bg-accentGreen", count: 10 },
-            { id: 3, title: "3. Cảm thông và giúp đỡ người khác", desc: "Nhận biết cảm xúc, quan tâm và hỗ trợ bạn bè khi gặp khó khăn.", icon: "fa-heart", color: "bg-accentRed", count: 7 },
-            { id: 4, title: "4. Giao tiếp và hợp tác trong học tập", desc: "Lắng nghe ý kiến, thảo luận nhóm và giải quyết bất đồng văn minh.", icon: "fa-people-group", color: "bg-accentOrange", count: 9 },
-            { id: 5, title: "5. Giao tiếp lịch sự", desc: "Sử dụng từ ngữ cảm ơn, xin lỗi và ứng xử lễ phép với mọi người.", icon: "fa-face-smile", color: "bg-yellow-500", count: 8 },
-            { id: 6, title: "6. Ứng xử trong đời sống", desc: "Xử lý tình huống giao tiếp ở trường, nơi công cộng và gia đình.", icon: "fa-house-chimney", color: "bg-purple-500", count: 6 },
-            { id: 7, title: "7. Bảo vệ bản thân trong giao tiếp", desc: "Nhận diện hành vi xấu, biết từ chối và tìm kiếm sự hỗ trợ an toàn.", icon: "fa-shield-halved", color: "bg-blue-600", count: 5 }
-        ];
+    <!-- MODAL ĐĂNG NHẬP GIÁO VIÊN -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl relative text-left">
+            <button onclick="closeModal('loginModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 bg-brand-light text-brand-primary rounded-2xl flex items-center justify-center text-xl mx-auto mb-2">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <h3 class="font-bold text-lg text-brand-text">Đăng Nhập Giáo Viên</h3>
+                <p class="text-xs text-brand-muted">Dành cho Giáo viên & Sinh viên Sư phạm</p>
+            </div>
 
-        let repositoryData = [
-            { id: 1, title: "Video tình huống: Khi bạn vô tình làm hỏng đồ dùng", subject: "Đạo đức 4", type: "Video", topic: "Cảm thông và giúp đỡ người khác", desc: "Video hoạt hình ngắn minh họa tình huống xử lý khi vô tình làm hỏng thước kẻ.", author: "ThS. Nguyễn Thị Mai", views: 245, downloads: 88, status: "Approved", fileName: "video_tinh_huong.mp4" },
-            { id: 2, title: "Trò chơi tương tác: Chọn lời nói lịch sự khi nhận quà", subject: "Tiếng Việt 4", type: "Trò chơi", topic: "Giao tiếp lịch sự", desc: "Trò chơi trắc nghiệm giúp học sinh lớp 4 rèn luyện cách nói lời cảm ơn.", author: "Cô Lê Văn Anh", views: 310, downloads: 140, status: "Approved", fileName: "tro_choi_lich_su.zip" },
-            { id: 3, title: "Phiếu bài tập: Xử lý bất đồng khi thảo luận nhóm", subject: "Hoạt động trải nghiệm", type: "Phiếu bài tập", topic: "Giao tiếp và hợp tác trong học tập", desc: "Phiếu học tập cá nhân và nhóm giúp rèn kỹ năng lắng nghe.", author: "Trần Minh Quân", views: 180, downloads: 95, status: "Pending", fileName: "phieu_bai_tap_nhom.pdf" }
-        ];
+            <form onsubmit="handleTeacherLogin(event)" class="space-y-3 pt-1">
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Email giáo viên</label>
+                    <input type="email" id="teacherEmailInput" required placeholder="nhap_email@ued.vnu.edu.vn" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Mật khẩu</label>
+                    <input type="password" id="teacherPwdInput" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs focus:outline-none focus:border-brand-primary bg-brand-bg">
+                </div>
+                <button type="submit" class="w-full bg-brand-primary hover:bg-brand-deep text-white font-bold py-3 rounded-btn text-xs shadow-soft transition cursor-pointer">
+                    Đăng nhập Giáo viên
+                </button>
+            </form>
+        </div>
+    </div>
 
-        let customPracticeItems = [
-            { id: 1, title: "Tình huống: Từ chối lời đề nghị không an toàn", desc: "Người lạ rủ đi chơi cổng trường sau giờ học. Em sẽ nói gì?", answer: "Kiên quyết từ chối, đi tìm thầy cô hoặc bố mẹ ngay.", author: "ThS. Nguyễn Thị Mai" }
-        ];
+    <!-- MODAL ĐĂNG KÝ TÀI KHOẢN GIÁO VIÊN MỚI -->
+    <div id="registerModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl relative text-left">
+            <button onclick="closeModal('registerModal')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center space-y-1">
+                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-xl mx-auto mb-2">
+                    <i class="fa-solid fa-user-plus"></i>
+                </div>
+                <h3 class="font-bold text-lg text-brand-text">Đăng Ký Tài Khoản Giáo Viên</h3>
+                <p class="text-xs text-brand-muted">Tạo tài khoản để đóng góp và tải học liệu</p>
+            </div>
+            <form onsubmit="handleTeacherRegister(event)" class="space-y-3 pt-2">
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Họ và tên thầy/cô</label>
+                    <input type="text" id="regNameInput" required placeholder="Nguyễn Văn A" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs bg-brand-bg">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Email</label>
+                    <input type="email" id="regEmailInput" required placeholder="name@ued.vnu.edu.vn" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs bg-brand-bg">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-brand-text mb-1">Mật khẩu</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-btn border border-brand-border text-xs bg-brand-bg">
+                </div>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold py-3 rounded-btn text-xs shadow-soft transition cursor-pointer">
+                    Đăng Ký Ngay
+                </button>
+            </form>
+        </div>
+    </div>
 
-        let usersData = [
-            { id: 1, name: "ThS. Nguyễn Thị Mai", email: "mai.nguyen@edu.vn", role: "Giáo viên", status: "Hoạt động" },
-            { id: 2, name: "Trần Minh Quân", email: "quan.tran@edu.vn", role: "Sinh viên ĐH Sư phạm", status: "Hoạt động" }
-        ];
+    <!-- FIREBASE REALTIME DATABASE INTEGRATION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getDatabase, ref, set, push, onValue, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        let currentUser = { isLoggedIn: false, name: "", email: "", role: "" };
-        let currentAuthMode = 'login';
-        let currentAdminTab = 'dashboard';
-        let currentPracticeTab = 'situation';
-
-        window.onload = function() {
-            renderHomeTopics();
-            renderRepository();
-            renderTopicsPage();
-            renderCommunity();
-            switchPracticeTab('situation');
+        const firebaseConfig = {
+            databaseURL: "https://loihayydung-default-rtdb.firebaseio.com/"
         };
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        window.db = db;
+        window.dbRef = ref;
+        window.dbSet = set;
+        window.dbPush = push;
+        window.dbOnValue = onValue;
+    </script>
+
+    <!-- JAVASCRIPT XỬ LÝ -->
+    <script>
+        let loggedInUser = null;
+        let isAdminLoggedIn = false;
+        let hasUploaded = true; 
+        let myUploadedMaterials = [];
+        let currentTopicFilter = 'all';
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            const colors = {
+                success: 'bg-emerald-50 border-emerald-200 text-emerald-900',
+                warning: 'bg-amber-50 border-amber-200 text-amber-900',
+                error: 'bg-red-50 border-red-200 text-red-900',
+                info: 'bg-blue-50 border-blue-200 text-blue-900'
+            };
+            toast.className = `p-3.5 rounded-xl shadow-lg border flex items-center gap-2.5 text-xs font-semibold pointer-events-auto transition-all ${colors[type] || colors.info}`;
+            toast.innerHTML = `<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 3500);
+        }
 
         function switchTab(tabId) {
-            if (tabId === 'admin' && (!currentUser.isLoggedIn || currentUser.role !== 'Admin')) {
-                alert('⚠️ Bạn cần đăng nhập tài khoản Quản trị viên (Admin) để truy cập!');
-                openAuthModal('login');
-                return;
-            }
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.getElementById('tab-' + tabId).classList.remove('hidden');
-            ['home', 'repository', 'topics', 'practice', 'community', 'intro', 'admin'].forEach(t => {
-                const btn = document.getElementById('nav-' + t);
-                if (btn) btn.className = (t === tabId) ? "px-4 py-2.5 rounded-xl text-primary bg-primaryLight transition" : "px-4 py-2.5 rounded-xl hover:bg-gray-100 hover:text-primary transition";
+
+            const activeTab = document.getElementById('tab-' + tabId);
+            if (activeTab) {
+                activeTab.classList.remove('hidden');
+            }
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-brand-primary', 'bg-brand-light', 'font-bold');
             });
+            const activeNav = document.getElementById('nav-' + tabId);
+            if (activeNav) {
+                activeNav.classList.add('text-brand-primary', 'bg-brand-light', 'font-bold');
+            }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function toggleMobileMenu() {
-            document.getElementById('mobile-menu').classList.toggle('hidden');
+        function openModal(modalId) {
+            const m = document.getElementById(modalId);
+            if (m) m.classList.remove('hidden');
         }
 
-        function renderHomeTopics() {
-            document.getElementById('home-topics-grid').innerHTML = topicsData.map(topic => `
-                <div class="bg-gray-50 hover:bg-primaryLight p-6 rounded-3xl border border-gray-100 transition flex flex-col justify-between group cursor-pointer" onclick="switchTab('topics')">
+        function closeModal(modalId) {
+            const m = document.getElementById(modalId);
+            if (m) m.classList.add('hidden');
+        }
+
+        function openDetailModal(title, category, topic, author, rating, downloads, linkUrl = '') {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalCategory').innerText = category;
+            document.getElementById('modalAuthor').innerText = 'Tác giả: ' + author;
+            document.getElementById('modalRating').innerText = rating;
+            document.getElementById('modalDownloadCount').innerHTML = `<i class="fa-solid fa-download mr-1 text-brand-primary"></i> ${downloads} lượt tải`;
+            
+            const previewBox = document.getElementById('modalPreviewBox');
+            if (linkUrl && (linkUrl.includes('youtube.com') || linkUrl.includes('youtu.be') || linkUrl.includes('drive.google.com'))) {
+                let embedUrl = linkUrl;
+                if (linkUrl.includes('watch?v=')) embedUrl = linkUrl.replace('watch?v=', 'embed/');
+                previewBox.innerHTML = `
+                    <div class="aspect-video bg-slate-800 rounded-lg overflow-hidden border border-slate-700">
+                        <iframe src="${embedUrl}" class="w-full h-full border-0" allowfullscreen></iframe>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                        <span>* Nhúng liên kết trực tuyến</span>
+                        <a href="${linkUrl}" target="_blank" rel="noopener noreferrer" class="text-brand-sky hover:underline font-semibold flex items-center gap-1">
+                            Mở liên kết gốc trong tab mới <i class="fa-solid fa-external-link-alt text-[10px]"></i>
+                        </a>
+                    </div>
+                `;
+            } else {
+                previewBox.innerHTML = `
+                    <div class="aspect-video bg-slate-800 rounded-lg flex flex-col items-center justify-center p-4 border border-slate-700 relative overflow-hidden">
+                        <video controls preload="none" class="w-full h-full object-contain rounded-md" poster="https://placehold.co/600x400/0284C7/ffffff?text=Video+Preview">
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Trình duyệt không hỗ trợ thẻ video.
+                        </video>
+                    </div>
+                    <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
+                        <span>* Video không tự phát (yêu cầu bấm phát)</span>
+                        <a href="${linkUrl || '#'}" target="_blank" rel="noopener noreferrer" class="text-brand-sky hover:underline font-semibold flex items-center gap-1">
+                            Mở liên kết học liệu gốc <i class="fa-solid fa-external-link-alt text-[10px]"></i>
+                        </a>
+                    </div>
+                `;
+            }
+
+            openModal('detailModal');
+        }
+
+        function toggleLikeModal() {
+            const likeNum = document.getElementById('likeNum');
+            let val = parseInt(likeNum.innerText);
+            val += 1;
+            likeNum.innerText = val;
+            showToast('Đã thêm học liệu vào danh sách Yêu thích!', 'success');
+        }
+
+        function submitComment() {
+            const input = document.getElementById('commentInput');
+            if (input.value.trim()) {
+                showToast('Bình luận góp ý của bạn đã được gửi thành công!', 'success');
+                input.value = '';
+            } else {
+                showToast('Vui lòng nhập nội dung bình luận!', 'warning');
+            }
+        }
+
+        function requestDownload() {
+            if (!hasUploaded && !loggedInUser && !isAdminLoggedIn) {
+                closeModal('detailModal');
+                openModal('loginModal');
+                showToast('Vui lòng đăng nhập để tải học liệu!', 'warning');
+            } else {
+                showToast('Bắt đầu tải xuống học liệu thành công!', 'success');
+                closeModal('detailModal');
+            }
+        }
+
+        function selectTopicFilter(topicKey) {
+            currentTopicFilter = topicKey;
+            document.querySelectorAll('.topic-pill').forEach(btn => {
+                btn.className = 'topic-pill px-3.5 py-2 rounded-xl text-xs font-semibold bg-brand-bg hover:bg-brand-light text-slate-700 transition cursor-pointer whitespace-nowrap';
+            });
+            const activeBtn = document.getElementById('pill-topic-' + topicKey);
+            if (activeBtn) {
+                activeBtn.className = 'topic-pill px-3.5 py-2 rounded-xl text-xs font-bold bg-brand-primary text-white shadow-xs transition cursor-pointer whitespace-nowrap';
+            }
+            filterMaterials();
+        }
+
+        function filterMaterials() {
+            const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
+            const topicDetailVal = document.getElementById('filterTopicDetail').value;
+            const checkedType = document.querySelector('input[name="sidebarType"]:checked');
+            const typeVal = checkedType ? checkedType.value : 'all';
+
+            document.querySelectorAll('.material-card').forEach(card => {
+                const title = card.getAttribute('data-title');
+                const topic = card.getAttribute('data-topic');
+                const type = card.getAttribute('data-type');
+
+                let matchSearch = title.includes(searchVal);
+                let matchTopicPill = (currentTopicFilter === 'all' || topic === currentTopicFilter);
+                let matchTopicSelect = (topicDetailVal === 'all' || topic === topicDetailVal);
+                let matchType = (typeVal === 'all' || type === typeVal);
+
+                if (matchSearch && matchTopicPill && matchTopicSelect && matchType) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        function searchFromHome() {
+            const q = document.getElementById('homeSearchInput').value;
+            switchTab('hoc-lieu');
+            document.getElementById('searchInput').value = q;
+            filterMaterials();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterTopicDetail').value = 'all';
+            selectTopicFilter('all');
+            const radioType = document.querySelector('input[name="sidebarType"][value="all"]');
+            if (radioType) radioType.checked = true;
+            filterMaterials();
+            showToast('Đã đặt lại tất cả bộ lọc.', 'info');
+        }
+
+        function handleCreateQuestion(event) {
+            event.preventDefault();
+            const title = document.getElementById('newQTitle').value.trim();
+            const mood = document.getElementById('newQMood').value;
+            const qText = document.getElementById('newQText').value.trim();
+            const fileInput = document.getElementById('newQFile');
+            const hasFile = fileInput && fileInput.files && fileInput.files[0];
+            const fileName = hasFile ? fileInput.files[0].name : '';
+
+            const container = document.getElementById('practiceQuestionsContainer');
+            const newCard = document.createElement('div');
+            newCard.className = "bg-white rounded-card p-6 sm:p-8 shadow-soft border border-brand-border space-y-4 relative";
+            newCard.innerHTML = `
+                <span class="absolute top-4 right-4 bg-emerald-100 text-emerald-800 font-bold text-[10px] px-3 py-1 rounded-full">
+                    ${mood}
+                </span>
+                <div class="flex items-center gap-3">
+                    <img src="https://placehold.co/100x100/0284C7/ffffff?text=UEd" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
                     <div>
-                        <div class="w-12 h-12 ${topic.color} text-white rounded-2xl flex items-center justify-center text-xl mb-4 shadow-sm group-hover:scale-110 transition">
-                            <i class="fa-solid ${topic.icon}"></i>
-                        </div>
-                        <h3 class="font-extrabold text-primaryDark text-base mb-2">${topic.title}</h3>
-                        <p class="text-xs text-neutralText leading-relaxed mb-4">${topic.desc}</p>
+                        <h4 class="font-bold text-brand-text text-sm">${loggedInUser ? loggedInUser.name : (isAdminLoggedIn ? 'Quản trị viên Admin' : 'Giáo viên')}</h4>
+                        <p class="text-[11px] text-brand-muted">Vừa xong</p>
                     </div>
-                    <div class="flex justify-between items-center text-xs font-bold text-primary">
-                        <span>${topic.count} học liệu</span>
-                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                </div>
+                <h3 class="font-bold text-slate-900 text-base">${title}</h3>
+                <p class="text-slate-800 text-xs leading-relaxed">"${qText}"</p>
+                ${hasFile ? `<div class="p-2.5 bg-slate-50 border border-slate-200 rounded-lg text-[11px] text-slate-700 flex items-center gap-2"><i class="fa-solid fa-paperclip text-brand-primary"></i> Tệp đính kèm: <strong>${fileName}</strong></div>` : ''}
+                <div class="flex items-center gap-4 text-xs text-brand-muted pt-2 border-t border-brand-border">
+                    <button onclick="showToast('Đã thả tim bài viết!', 'success')" class="hover:text-rose-600 flex items-center gap-1 cursor-pointer"><i class="fa-solid fa-heart text-rose-500"></i> Thích (1)</button>
+                    <span><i class="fa-solid fa-comment mr-1 text-brand-primary"></i> 0 bình luận</span>
+                </div>
+            `;
+            container.prepend(newCard);
+            closeModal('createQuestionModal');
+            showToast('Đăng câu chuyện / tâm sự lên góc chia sẻ thành công!', 'success');
+        }
+
+        function handleTeacherLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('teacherEmailInput').value;
+            
+            isAdminLoggedIn = false;
+            loggedInUser = { type: 'teacher', name: email.split('@')[0], email: email };
+            
+            closeModal('loginModal');
+            updateAuthHeader();
+            showToast('Đăng nhập giáo viên thành công! Đang chuyển vào Tủ học liệu...', 'success');
+            openDashboardTab();
+        }
+
+        function handleTeacherRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('regNameInput').value;
+            const email = document.getElementById('regEmailInput').value;
+            
+            isAdminLoggedIn = false;
+            loggedInUser = { type: 'teacher', name: name, email: email };
+            
+            closeModal('registerModal');
+            updateAuthHeader();
+            showToast(`Đăng ký thành công! Đang chuyển vào Tủ học liệu cho thầy/cô ${name}...`, 'success');
+            openDashboardTab();
+        }
+
+        function handleAdminLogin(event) {
+            event.preventDefault();
+            const u = document.getElementById('adminUserIn').value.trim();
+            const p = document.getElementById('adminPwdIn').value;
+            if (u === 'admin' && p === 'admin123') {
+                loggedInUser = null;
+                isAdminLoggedIn = true;
+                
+                closeModal('adminLoginModal');
+                openModal('adminModal');
+                document.getElementById('navAdminBtn').classList.remove('hidden');
+                updateAuthHeader();
+                showToast('Đăng nhập Quản trị viên thành công!', 'success');
+            } else {
+                showToast('Sai tài khoản hoặc mật khẩu Admin! (admin / admin123)', 'error');
+            }
+        }
+
+        function checkAdminAccess() {
+            if (isAdminLoggedIn) {
+                openModal('adminModal');
+            } else {
+                openModal('adminLoginModal');
+            }
+        }
+
+        function approveAdminItem(btn) {
+            const row = btn.closest('.flex');
+            if (row) {
+                showToast('Đã phê duyệt học liệu thành công! Học liệu đã được công khai trên thư viện.', 'success');
+                row.innerHTML = `<span class="text-emerald-600 font-bold text-xs"><i class="fa-solid fa-circle-check mr-1"></i> Đã duyệt thành công</span>`;
+            }
+        }
+
+        function rejectAdminItem(btn) {
+            const row = btn.closest('.flex');
+            if (row) {
+                showToast('Đã từ chối học liệu.', 'warning');
+                row.innerHTML = `<span class="text-red-600 font-bold text-xs"><i class="fa-solid fa-circle-xmark mr-1"></i> Đã từ chối</span>`;
+            }
+        }
+
+        function handleUpload(event) {
+            event.preventDefault();
+            const title = document.getElementById('upTitle').value;
+            hasUploaded = true;
+            
+            myUploadedMaterials.unshift({
+                title: title,
+                status: 'Đã kiểm duyệt & Công khai',
+                downloads: 0
+            });
+
+            renderMyUploadedList();
+            closeModal('uploadModal');
+            showToast('🎉 Đóng góp học liệu thành công! Học liệu đã được lưu vào Tủ học liệu của bạn.', 'success');
+        }
+
+        function renderMyUploadedList() {
+            const container = document.getElementById('myUploadedList');
+            if (!container) return;
+            if (myUploadedMaterials.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500">Chưa có học liệu nào được đóng góp.</p>`;
+                return;
+            }
+            container.innerHTML = myUploadedMaterials.map(m => `
+                <div class="p-4 rounded-xl border border-slate-200 bg-brand-bg flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                    <div>
+                        <span class="bg-amber-100 text-amber-800 font-bold text-[10px] px-2 py-0.5 rounded">Học liệu</span>
+                        <h4 class="font-bold text-slate-900 text-sm mt-1">${m.title}</h4>
+                        <p class="text-slate-500 text-[11px] mt-0.5">Trạng thái: <strong class="text-emerald-600">${m.status}</strong> • Lượt tải: ${m.downloads}</p>
                     </div>
+                    <span class="text-brand-primary font-semibold">Xem chi tiết</span>
                 </div>
             `).join('');
         }
 
-        function renderRepository() {
-            const keyword = document.getElementById('repo-search-input').value.toLowerCase();
-            const subject = document.getElementById('filter-subject').value;
-            const type = document.getElementById('filter-type').value;
-            const sort = document.getElementById('filter-sort').value;
-
-            let filtered = repositoryData.filter(item => {
-                if (item.status !== 'Approved') return false;
-                const matchKey = item.title.toLowerCase().includes(keyword) || item.desc.toLowerCase().includes(keyword) || item.author.toLowerCase().includes(keyword);
-                const matchSub = (subject === 'all' || item.subject === subject);
-                const matchType = (type === 'all' || item.type === type);
-                return matchKey && matchSub && matchType;
-            });
-
-            if (sort === 'popular') filtered.sort((a, b) => (b.views + b.downloads) - (a.views + a.downloads));
-            else filtered.sort((a, b) => b.id - a.id);
-
-            const grid = document.getElementById('repository-grid');
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-12 text-center text-neutralText font-medium">🔍 Không tìm thấy học liệu phù hợp.</div>`;
+        function openDashboardTab() {
+            if (!loggedInUser && !isAdminLoggedIn) {
+                openModal('loginModal');
+                showToast('Vui lòng đăng nhập để xem Tủ học liệu!', 'warning');
                 return;
             }
+            if (isAdminLoggedIn) {
+                document.getElementById('dashTeacherName').innerText = 'Quản Trị Viên (Admin)';
+                document.getElementById('dashRoleDesc').innerText = 'Quản lý toàn bộ hệ thống kiểm duyệt và học liệu mở';
+                document.getElementById('dashAvatarBox').innerText = 'AD';
+                document.getElementById('dashAvatarBox').className = 'w-14 h-14 bg-purple-100 text-purple-700 rounded-2xl flex items-center justify-center text-xl font-bold border border-purple-300';
+                document.getElementById('dashListTitle').innerText = 'Danh sách toàn bộ học liệu hệ thống';
+            } else {
+                document.getElementById('dashTeacherName').innerText = loggedInUser.name;
+                document.getElementById('dashRoleDesc').innerText = 'Tủ lưu trữ các học liệu và giáo án mẫu đã đóng góp';
+                document.getElementById('dashAvatarBox').innerText = 'GV';
+                document.getElementById('dashAvatarBox').className = 'w-14 h-14 bg-brand-light text-brand-primary rounded-2xl flex items-center justify-center text-xl font-bold border border-brand-primary/30';
+                document.getElementById('dashListTitle').innerText = 'Danh sách học liệu bạn đã đóng góp';
+            }
+            renderMyUploadedList();
+            switchTab('dashboard');
+        }
 
-            grid.innerHTML = filtered.map(item => `
-                <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition">
-                    <div>
-                        <div class="flex justify-between items-center mb-3">
-                            <span class="bg-primary/10 text-primary text-xs font-extrabold px-3 py-1 rounded-full">${item.subject}</span>
-                            <span class="bg-orange-50 text-accentOrange text-xs font-bold px-2.5 py-1 rounded-lg">${item.type}</span>
-                        </div>
-                        <h3 class="font-extrabold text-primaryDark text-base mb-2 line-clamp-2">${item.title}</h3>
-                        <p class="text-xs text-neutralText line-clamp-2 mb-4">${item.desc}</p>
-                    </div>
-                    <div>
-                        <div class="flex items-center justify-between text-xs text-gray-500 mb-4 pt-3 border-t border-gray-50">
-                            <span><i class="fa-solid fa-user-pen mr-1"></i> ${item.author}</span>
-                            <div class="flex items-center gap-3">
-                                <span><i class="fa-solid fa-eye mr-1"></i> ${item.views}</span>
-                                <span><i class="fa-solid fa-download mr-1"></i> ${item.downloads}</span>
-                            </div>
-                        </div>
-                        <button onclick="openDetailModal(${item.id})" class="w-full py-3 bg-primaryLight text-primary font-extrabold text-xs rounded-xl hover:bg-primary hover:text-white transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Xem chi tiết & Tải xuống
+        function updateAuthHeader() {
+            const dashBtn = document.getElementById('navDashboardBtn');
+            const authContainer = document.getElementById('headerAuthState');
+            const adminNav = document.getElementById('navAdminBtn');
+            const loginHeaderBtn = document.getElementById('loginHeaderBtn');
+            const adminHeaderBtn = document.getElementById('adminHeaderBtn');
+
+            if (!loggedInUser && !isAdminLoggedIn) {
+                if (dashBtn) dashBtn.classList.add('hidden');
+                if (adminNav) adminNav.classList.add('hidden');
+                if (loginHeaderBtn) loginHeaderBtn.classList.remove('hidden');
+                if (adminHeaderBtn) adminHeaderBtn.classList.remove('hidden');
+                if (authContainer) {
+                    authContainer.innerHTML = `
+                        <button onclick="openModal('loginModal')" class="hover:underline font-semibold bg-white/20 px-3 py-1 rounded-full transition hover:bg-white/30 cursor-pointer">
+                            <i class="fa-solid fa-user-circle mr-1"></i> Đăng nhập GV
                         </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function filterRepository() { renderRepository(); }
-
-        function renderTopicsPage() {
-            document.getElementById('topics-page-container').innerHTML = topicsData.map(topic => {
-                const related = repositoryData.filter(item => item.topic === topic.title.substring(3).trim() && item.status === 'Approved');
-                return `
-                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
-                        <div class="flex items-center gap-4 mb-4">
-                            <div class="w-14 h-14 ${topic.color} text-white rounded-2xl flex items-center justify-center text-2xl shadow">
-                                <i class="fa-solid ${topic.icon}"></i>
-                            </div>
-                            <div>
-                                <h2 class="text-xl font-extrabold text-primaryDark">${topic.title}</h2>
-                                <p class="text-xs text-neutralText mt-0.5">${topic.desc}</p>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-                            ${related.length > 0 ? related.map(r => `
-                                <div class="bg-gray-50 p-4 rounded-2xl border border-gray-100 flex justify-between items-center">
-                                    <div>
-                                        <span class="text-xs text-accentOrange font-extrabold">${r.type}</span>
-                                        <h4 class="font-extrabold text-primaryDark text-sm mt-0.5">${r.title}</h4>
-                                    </div>
-                                    <button onclick="openDetailModal(${r.id})" class="px-3 py-2 bg-primary text-white text-xs font-bold rounded-xl shadow">Xem</button>
-                                </div>
-                            `).join('') : '<p class="text-xs text-neutralText italic col-span-2">Đang cập nhật thêm học liệu...</p>'}
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function renderCommunity() {
-            document.getElementById('community-contributors-grid').innerHTML = [
-                { name: "ThS. Nguyễn Thị Mai", role: "Giáo viên Tiểu học", count: 18, avatar: "https://placehold.co/100x100/1599E8/FFFFFF?text=NTM" },
-                { name: "Cô Lê Văn Anh", role: "Giáo viên Đạo đức", count: 14, avatar: "https://placehold.co/100x100/43B581/FFFFFF?text=LVA" },
-                { name: "Trần Minh Quân", role: "Sinh viên ĐH Sư phạm", count: 9, avatar: "https://placehold.co/100x100/FF9854/FFFFFF?text=TMQ" }
-            ].map(c => `
-                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 text-center">
-                    <img src="${c.avatar}" alt="${c.name}" class="w-20 h-20 rounded-full mx-auto mb-4 object-cover shadow-sm">
-                    <h3 class="font-extrabold text-primaryDark text-base">${c.name}</h3>
-                    <p class="text-xs text-neutralText font-medium mt-1 mb-3">${c.role}</p>
-                    <span class="bg-primaryLight text-primary text-xs font-bold px-3 py-1 rounded-full">✨ Đã đóng góp ${c.count} học liệu</span>
-                </div>
-            `).join('');
-        }
-
-        function switchPracticeTab(subTab) {
-            currentPracticeTab = subTab;
-            ['sit', 'custom'].forEach(t => {
-                const btn = document.getElementById('p-tab-' + t);
-                if (btn) btn.className = "px-6 py-3 rounded-xl font-extrabold text-sm flex items-center gap-2 " + (t === (subTab === 'situation' ? 'sit' : 'custom') ? "bg-primary text-white shadow" : "bg-white text-gray-700 hover:bg-gray-100 shadow-sm");
-            });
-
-            const container = document.getElementById('practice-body-container');
-            if (subTab === 'situation') {
-                container.innerHTML = `
-                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
-                        <span class="bg-accentOrange/10 text-accentOrange text-xs font-extrabold px-3 py-1 rounded-full">🧩 Tình huống thực tế mẫu #1</span>
-                        <h3 class="text-xl font-extrabold text-primaryDark mt-3 mb-3">Khi bạn vô tình làm hỏng đồ dùng của bạn cùng bàn</h3>
-                        <p class="text-gray-700 text-sm sm:text-base leading-relaxed mb-6">
-                            Trong giờ thủ công, Nam vô tình làm rơi và gãy chiếc thước kẻ của Lan. Nếu là Nam, em sẽ chọn cách ứng xử nào?
-                        </p>
-                        <div class="space-y-3 mb-6">
-                            <button onclick="handleSituationChoice(false)" class="w-full text-left p-4 rounded-2xl border-2 border-gray-100 hover:border-primary font-medium text-sm transition bg-gray-50/50">❌ A. Giấu chiếc thước đi và vờ như không biết.</button>
-                            <button onclick="handleSituationChoice(true)" class="w-full text-left p-4 rounded-2xl border-2 border-gray-100 hover:border-accentGreen font-medium text-sm transition bg-gray-50/50">✅ B. Ngay lập tức xin lỗi Lan, nhận trách nhiệm và đền bù.</button>
-                        </div>
-                        <div id="situation-feedback" class="hidden p-4 rounded-2xl text-sm font-medium"></div>
-                    </div>
-                `;
+                        <button onclick="openModal('registerModal')" class="hover:underline font-semibold bg-amber-400 text-slate-900 px-3 py-1 rounded-full transition hover:bg-amber-300 cursor-pointer">
+                            Đăng ký
+                        </button>
+                    `;
+                }
+            } else if (isAdminLoggedIn) {
+                if (dashBtn) dashBtn.classList.remove('hidden');
+                if (adminNav) adminNav.classList.remove('hidden');
+                if (loginHeaderBtn) loginHeaderBtn.classList.add('hidden');
+                if (adminHeaderBtn) loginHeaderBtn.classList.add('hidden');
+                if (authContainer) {
+                    authContainer.innerHTML = `
+                        <span class="bg-purple-600 text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                            <i class="fa-solid fa-shield-halved mr-1"></i> Quản trị Admin
+                        </span>
+                        <button onclick="isAdminLoggedIn=false; updateAuthHeader(); switchTab('trang-chu'); showToast('Đã đăng xuất Admin.', 'info');" class="hover:underline font-semibold bg-white/20 px-2 py-1 rounded-full text-xs transition cursor-pointer">Thoát</button>
+                    `;
+                }
             } else {
-                container.innerHTML = `
-                    <div class="space-y-6">
-                        <div class="bg-blue-50 border border-blue-200 p-4 rounded-2xl text-sm text-blue-900 flex justify-between items-center">
-                            <span>✨ Học liệu tình huống do giáo viên/sinh viên tự soạn thảo.</span>
-                            <button onclick="openCreatorModal()" class="px-3.5 py-2 bg-primary text-white font-bold rounded-xl text-xs shadow hover:bg-primaryDark flex-shrink-0 ml-3">+ Tạo bài tập</button>
-                        </div>
-                        <div class="grid grid-cols-1 gap-4">
-                            ${customPracticeItems.map(item => `
-                                <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                                    <div class="flex justify-between items-center mb-2">
-                                        <span class="bg-accentOrange/10 text-accentOrange text-xs font-extrabold px-2.5 py-1 rounded-full">📝 Học liệu GV</span>
-                                        <span class="text-xs text-neutralText font-bold"><i class="fa-solid fa-user-pen mr-1"></i> ${item.author}</span>
-                                    </div>
-                                    <h4 class="font-extrabold text-primaryDark text-base mb-2">${item.title}</h4>
-                                    <p class="text-sm text-gray-700 mb-4">${item.desc}</p>
-                                    <div class="bg-green-50 border border-green-200 p-3.5 rounded-2xl text-xs text-accentGreen font-bold">
-                                        💡 Gợi ý ứng xử: ${item.answer}
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
+                if (dashBtn) dashBtn.classList.remove('hidden');
+                if (adminNav) adminNav.classList.add('hidden');
+                if (loginHeaderBtn) loginHeaderBtn.classList.add('hidden');
+                if (adminHeaderBtn) adminHeaderBtn.classList.add('hidden');
+                if (authContainer) {
+                    authContainer.innerHTML = `
+                        <span class="bg-amber-400 text-slate-900 text-[11px] font-bold px-3 py-1 rounded-full shadow-xs">
+                            <i class="fa-solid fa-user-tie mr-1"></i> ${loggedInUser ? loggedInUser.name : 'Giáo viên'}
+                        </span>
+                        <button onclick="loggedInUser=null; updateAuthHeader(); switchTab('trang-chu'); showToast('Đã đăng xuất Giáo viên.', 'info');" class="hover:underline font-semibold bg-white/20 px-2 py-1 rounded-full text-xs transition cursor-pointer">Thoát</button>
+                    `;
+                }
             }
-        }
-
-        function handleSituationChoice(isCorrect) {
-            const fb = document.getElementById('situation-feedback');
-            fb.classList.remove('hidden');
-            fb.className = isCorrect ? "p-4 rounded-2xl text-sm font-medium bg-green-50 text-accentGreen border border-green-200" : "p-4 rounded-2xl text-sm font-medium bg-red-50 text-accentRed border border-red-200";
-            fb.innerHTML = isCorrect ? "🎉 <b>Chính xác tuyệt vời!</b> Lời xin lỗi chân thành thể hiện em là người dũng cảm và biết tôn trọng bạn bè." : "⚠️ <b>Chưa phù hợp lắm!</b> Hãy chọn cách ứng xử văn minh và nhận trách nhiệm nhé.";
-        }
-
-        function openCreatorModal() {
-            if (!currentUser.isLoggedIn) { alert('⚠️ Vui lòng đăng nhập để tạo học liệu thực hành!'); openAuthModal('login'); return; }
-            document.getElementById('creator-modal').classList.remove('hidden');
-        }
-        function closeCreatorModal() { document.getElementById('creator-modal').classList.add('hidden'); }
-        function submitCreatorItem() {
-            const title = document.getElementById('cr-title').value.trim();
-            const desc = document.getElementById('cr-desc').value.trim();
-            const answer = document.getElementById('cr-answer').value.trim();
-            if (!title || !desc) { alert('Vui lòng điền đủ thông tin!'); return; }
-            customPracticeItems.unshift({ id: Date.now(), title, desc, answer: answer || "Ứng xử lịch sự.", author: currentUser.name });
-            alert('🎉 Đã đẩy học liệu lên Góc Thực Hành thành công!');
-            closeCreatorModal();
-            switchPracticeTab('custom');
-        }
-
-        function openUploadModal() {
-            if (!currentUser.isLoggedIn) { alert('⚠️ Vui lòng đăng nhập để đóng góp học liệu!'); openAuthModal('login'); return; }
-            document.getElementById('upload-modal').classList.remove('hidden');
-        }
-        function closeUploadModal() { document.getElementById('upload-modal').classList.add('hidden'); }
-
-        function toggleSourceInput() {
-            const type = document.getElementById('up-source-type').value;
-            document.getElementById('source-file-group').classList.toggle('hidden', type !== 'file');
-            document.getElementById('source-link-group').classList.toggle('hidden', type !== 'link');
-        }
-
-        function submitUploadItem() {
-            const title = document.getElementById('up-title').value.trim();
-            const desc = document.getElementById('up-desc').value.trim();
-            const srcType = document.getElementById('up-source-type').value;
-            let fileName = "tai_lieu_dinh_kem.pdf";
-
-            if (srcType === 'file') {
-                const fileInput = document.getElementById('up-file-input');
-                if (fileInput.files.length > 0) fileName = fileInput.files[0].name;
-            }
-
-            if (!title || !desc) { alert('Vui lòng điền đầy đủ tiêu đề và mô tả!'); return; }
-
-            repositoryData.push({
-                id: Date.now(),
-                title,
-                subject: document.getElementById('up-subject').value,
-                type: document.getElementById('up-type').value,
-                topic: "Giao tiếp lịch sự",
-                desc,
-                author: currentUser.name,
-                views: 1,
-                downloads: 0,
-                status: "Pending",
-                fileName
-            });
-
-            alert('🎉 Đã gửi học liệu thành công! Tài liệu đang ở trạng thái chờ Quản trị viên kiểm duyệt.');
-            closeUploadModal();
-        }
-
-        function openDetailModal(id) {
-            const item = repositoryData.find(i => i.id === id);
-            if (!item) return;
-            item.views++;
-            document.getElementById('detail-modal-content').innerHTML = `
-                <div class="space-y-4">
-                    <span class="bg-primary/10 text-primary text-xs font-extrabold px-3 py-1 rounded-full">${item.subject}</span>
-                    <h2 class="text-2xl font-extrabold text-primaryDark">${item.title}</h2>
-                    <p class="text-xs text-neutralText">Tác giả: <b>${item.author}</b> | Tệp: ${item.fileName || 'Tài liệu đính kèm'}</p>
-                    <p class="text-sm text-gray-700 leading-relaxed">${item.desc}</p>
-                    <div class="p-4 bg-primaryLight rounded-2xl flex items-center justify-between">
-                        <div>
-                            <div class="font-extrabold text-primaryDark text-sm">Tài nguyên sẵn sàng</div>
-                            <p class="text-xs text-neutralText">Tải xuống tệp thực tế từ máy chủ.</p>
-                        </div>
-                        <button onclick="handleDownloadItem(${item.id})" class="px-5 py-2.5 bg-primary text-white font-extrabold text-xs rounded-xl shadow">Tải xuống ngay</button>
-                    </div>
-                </div>
-            `;
-            document.getElementById('detail-modal').classList.remove('hidden');
-        }
-        function closeDetailModal() { document.getElementById('detail-modal').classList.add('hidden'); renderRepository(); }
-        function handleDownloadItem(id) {
-            const item = repositoryData.find(i => i.id === id);
-            if (item) {
-                item.downloads++;
-                alert(`📥 Đang tải xuống tệp "${item.fileName || item.title}" về máy thành công!`);
-                closeDetailModal();
-            }
-        }
-
-        function handleAuthSubmit() {
-            const email = document.getElementById('auth-email').value.trim();
-            const pass = document.getElementById('auth-pass').value.trim();
-            if (email === 'admin@loihayydung.edu.vn' && pass === 'admin123') {
-                currentUser = { isLoggedIn: true, name: "Quản trị viên", email, role: "Admin" };
-                alert('🎉 Đăng nhập Admin thành công!');
-                closeAuthModal();
-                updateHeaderAuthUI();
-                switchTab('admin');
-                renderAdminDashboard();
-                return;
-            }
-            const found = usersData.find(u => u.email === email);
-            if (!found) { alert('❌ Sai email hoặc email chưa đăng ký!'); return; }
-            currentUser = { isLoggedIn: true, name: found.name, email: found.email, role: found.role };
-            alert(`🎉 Chào mừng ${currentUser.name}!`);
-            closeAuthModal();
-            updateHeaderAuthUI();
-        }
-
-        function handleRegisterSubmit() {
-            const name = document.getElementById('reg-name').value.trim();
-            const email = document.getElementById('reg-email').value.trim();
-            const role = document.getElementById('reg-role').value;
-            const pass = document.getElementById('reg-pass').value.trim();
-            if (!name || !email || !pass) { alert('Vui lòng điền đủ thông tin!'); return; }
-            usersData.push({ id: Date.now(), name, email, role, status: "Hoạt động" });
-            currentUser = { isLoggedIn: true, name, email, role };
-            alert(`🎉 Đăng ký thành công! Chào mừng ${name}.`);
-            closeAuthModal();
-            updateHeaderAuthUI();
-        }
-
-        function handleLogout() {
-            currentUser = { isLoggedIn: false, name: "", email: "", role: "" };
-            alert('Đã đăng xuất.');
-            updateHeaderAuthUI();
-            switchTab('home');
-        }
-
-        function updateHeaderAuthUI() {
-            const area = document.getElementById('auth-header-area');
-            if (currentUser.isLoggedIn) {
-                area.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <div class="text-right">
-                            <span class="text-xs font-extrabold text-primaryDark block">${currentUser.name}</span>
-                            <span class="text-[10px] font-bold text-accentOrange bg-orange-50 px-2 py-0.5 rounded-full">${currentUser.role}</span>
-                        </div>
-                        ${currentUser.role === 'Admin' ? `<button onclick="switchTab('admin')" class="px-3 py-2 bg-primaryDark text-white font-bold text-xs rounded-xl shadow">⚙️ Admin</button>` : ''}
-                        <button onclick="handleLogout()" class="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs"><i class="fa-solid fa-right-from-bracket"></i></button>
-                    </div>
-                `;
-            } else {
-                area.innerHTML = `<button onclick="openAuthModal('login')" class="px-5 py-2.5 bg-primary text-white font-extrabold text-sm rounded-xl shadow hover:bg-primaryDark transition flex items-center gap-2"><i class="fa-solid fa-user"></i> Đăng nhập</button>`;
-            }
-        }
-
-        function switchAdminTab(subTab) {
-            currentAdminTab = subTab;
-            ['dash', 'mod', 'usr'].forEach(t => {
-                const btn = document.getElementById('adm-tab-' + t);
-                if (btn) btn.className = "px-5 py-2.5 rounded-xl font-bold text-xs " + (t === (subTab === 'dashboard' ? 'dash' : subTab === 'moderation' ? 'mod' : 'usr') ? "bg-primary text-white shadow" : "bg-white text-gray-700 hover:bg-gray-100 shadow-sm");
-            });
-            if (subTab === 'dashboard') renderAdminDashboard();
-            else if (subTab === 'moderation') renderAdminModeration();
-            else if (subTab === 'users') renderAdminUsers();
-        }
-
-        function renderAdminDashboard() {
-            const pending = repositoryData.filter(i => i.status === 'Pending').length;
-            document.getElementById('pending-count-badge').innerText = pending;
-            document.getElementById('admin-body-container').innerHTML = `
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100"><div class="text-3xl font-extrabold text-primary mb-1">${usersData.length}</div><div class="text-xs font-bold text-neutralText">Tổng số tài khoản</div></div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100"><div class="text-3xl font-extrabold text-accentOrange mb-1">${pending}</div><div class="text-xs font-bold text-neutralText">Học liệu chờ duyệt</div></div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100"><div class="text-3xl font-extrabold text-accentGreen mb-1">${repositoryData.filter(i=>i.status==='Approved').length}</div><div class="text-xs font-bold text-neutralText">Đã phê duyệt</div></div>
-                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100"><div class="text-3xl font-extrabold text-purple-600 mb-1">1,450</div><div class="text-xs font-bold text-neutralText">Tổng lượt xem</div></div>
-                </div>
-            `;
-        }
-
-        function renderAdminModeration() {
-            const pending = repositoryData.filter(i => i.status === 'Pending');
-            document.getElementById('admin-body-container').innerHTML = `
-                <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
-                    <h3 class="font-extrabold text-primaryDark text-lg mb-4">⏳ Học liệu chờ kiểm duyệt</h3>
-                    ${pending.length === 0 ? `<p class="text-xs text-neutralText py-8 text-center">Không có học liệu nào đang chờ duyệt.</p>` : `
-                        <div class="space-y-4">
-                            ${pending.map(item => `
-                                <div class="p-5 rounded-2xl bg-gray-50 border border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                                    <div>
-                                        <span class="bg-orange-100 text-accentOrange text-xs font-extrabold px-2.5 py-1 rounded-full">${item.subject} • ${item.type}</span>
-                                        <h4 class="font-extrabold text-primaryDark text-base mt-2">${item.title}</h4>
-                                        <p class="text-xs text-gray-600 mt-1">Tác giả: <b>${item.author}</b> | Tệp: ${item.fileName} | ${item.desc}</p>
-                                    </div>
-                                    <div class="flex items-center gap-2 flex-shrink-0">
-                                        <button onclick="adminApproveItem(${item.id})" class="px-4 py-2.5 bg-accentGreen text-white font-extrabold text-xs rounded-xl shadow">Phê duyệt</button>
-                                        <button onclick="adminRejectItem(${item.id})" class="px-4 py-2.5 bg-accentRed text-white font-extrabold text-xs rounded-xl shadow">Từ chối</button>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    `}
-                </div>
-            `;
-        }
-
-        function adminApproveItem(id) {
-            const item = repositoryData.find(i => i.id === id);
-            if (item) {
-                item.status = 'Approved';
-                alert(`🎉 Đã phê duyệt học liệu "${item.title}" thành công!`);
-                renderAdminModeration();
-                renderRepository();
-                renderTopicsPage();
-            }
-        }
-
-        function adminRejectItem(id) {
-            repositoryData = repositoryData.filter(i => i.id !== id);
-            alert('Đã từ chối và xóa học liệu.');
-            renderAdminModeration();
-        }
-
-        function renderAdminUsers() {
-            document.getElementById('admin-body-container').innerHTML = `
-                <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
-                    <h3 class="font-extrabold text-primaryDark text-lg mb-4">👥 Quản lý tài khoản hệ thống</h3>
-                    <table class="w-full text-left text-xs">
-                        <thead><tr class="border-b border-gray-100 text-gray-400 uppercase font-bold"><th class="pb-3">Họ tên</th><th class="pb-3">Email</th><th class="pb-3">Vai trò</th><th class="pb-3">Trạng thái</th></tr></thead>
-                        <tbody class="divide-y divide-gray-50 font-medium">
-                            ${usersData.map(u => `<tr><td class="py-3 font-extrabold text-primaryDark">${u.name}</td><td class="py-3 text-gray-600">${u.email}</td><td class="py-3"><span class="bg-primaryLight text-primary px-2.5 py-1 rounded-full font-bold">${u.role}</span></td><td class="py-3 text-accentGreen font-bold">${u.status}</td></tr>`).join('')}
-                        </tbody>
-                    </table>
-                </div>
-            `;
-        }
-
-        function openAuthModal(mode) {
-            currentAuthMode = mode || 'login';
-            document.getElementById('auth-form-login').classList.toggle('hidden', currentAuthMode !== 'login');
-            document.getElementById('auth-form-register').classList.toggle('hidden', currentAuthMode !== 'register');
-            document.getElementById('auth-modal').classList.remove('hidden');
-        }
-        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
-        function switchAuthMode(mode) {
-            currentAuthMode = mode;
-            document.getElementById('auth-form-login').classList.toggle('hidden', mode !== 'login');
-            document.getElementById('auth-form-register').classList.toggle('hidden', mode !== 'register');
-            document.getElementById('auth-tab-login').className = "flex-1 py-2.5 rounded-xl font-extrabold text-xs " + (mode === 'login' ? "bg-white text-primary shadow-sm" : "text-gray-600");
-            document.getElementById('auth-tab-register').className = "flex-1 py-2.5 rounded-xl font-extrabold text-xs " + (mode === 'register' ? "bg-white text-primary shadow-sm" : "text-gray-600");
         }
     </script>
 </body>
