@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lời Hay Ý Đúng – Nền tảng học liệu số giáo dục tiểu học</title>
-    <!-- PWA Manifest Link -->
+    <!-- PWA Manifest & App Icon Links -->
     <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiTG9mIEhheSBZIELFbmciLCJzaG9ydF9uYW1lIjoiTG9mIEhheSIsImNvbW1lbnQiOiJOw6FuIHThuqNuZyBo4buNYyBsaeG7g3Ugc+G7kSBnaWFvIGThuujmgdGnhubugaOG7jWMiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNGNUY5RkYiLCJ0aGVtZV9jb2xvciI6IiMwMjg0QzciLCJpY29ucyI6W119">
     <meta name="theme-color" content="#0284C7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Lời Hay Ý Đúng">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <script>
@@ -788,7 +791,7 @@
                     <h4 class="font-bold text-xs text-brand-light uppercase tracking-wider mb-3">Ứng dụng di động</h4>
                     <p class="text-xs text-blue-100/80">Hỗ trợ cài đặt PWA trực tiếp trên điện thoại & máy tính bảng.</p>
                     <button onclick="installPWAApp()" class="bg-brand-primary hover:bg-brand-sky text-white text-xs font-bold px-4 py-2.5 rounded-btn w-full transition shadow-xs cursor-pointer">
-                        <i class="fa-solid fa-mobile-screen-button mr-2"></i> Cài đặt ứng dụng về máy
+                        <i class="fa-solid fa-mobile-screen-button mr-2"></i> Cài đặt ứng dụng về điện thoại
                     </button>
                 </div>
             </div>
@@ -1144,7 +1147,7 @@
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            showToast('Ứng dụng đã sẵn sàng cài đặt về máy!', 'info');
+            showToast('Ứng dụng đã sẵn sàng cài đặt về điện thoại!', 'info');
         });
 
         function installPWAApp() {
@@ -1157,7 +1160,8 @@
                     deferredPrompt = null;
                 });
             } else {
-                showToast('Để cài đặt: Trên Chrome/Safari, nhấn vào menu (3 chấm) và chọn "Thêm vào màn hình chính" (Add to Home screen).', 'info');
+                // Hiển thị hướng dẫn chi tiết thân thiện cho người dùng điện thoại
+                showToast('📱 Cách cài đặt: Trên iPhone (Safari) nhấn nút Chia sẻ rồi chọn "Thêm vào MH chính". Trên Android (Chrome) nhấn menu 3 chấm chọn "Cài đặt ứng dụng" hoặc "Thêm vào màn hình chính".', 'info');
             }
         }
 
